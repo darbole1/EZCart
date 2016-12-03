@@ -1,7 +1,12 @@
 /*
  * 
  */
-package ez;
+package ui;
+
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.*;
+
 
 /**
  *
@@ -31,6 +36,7 @@ public class EZ_GUI extends javax.swing.JFrame {
         passwordTextField = new javax.swing.JTextField();
         ezTitleLabel = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
+        forgotPasswordLabel = new javax.swing.JLabel();
         backgroundjLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -67,6 +73,16 @@ public class EZ_GUI extends javax.swing.JFrame {
         getContentPane().add(loginButton);
         loginButton.setBounds(310, 170, 100, 25);
 
+        forgotPasswordLabel.setForeground(new java.awt.Color(0, 0, 0));
+        forgotPasswordLabel.setText("Forgot Password");
+        forgotPasswordLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                forgotPasswordLabelMouseClicked(evt);
+            }
+        });
+        getContentPane().add(forgotPasswordLabel);
+        forgotPasswordLabel.setBounds(310, 210, 110, 15);
+
         backgroundjLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ez/imgs/background_color.jpg"))); // NOI18N
         getContentPane().add(backgroundjLabel);
         backgroundjLabel.setBounds(0, 0, 630, 500);
@@ -74,6 +90,12 @@ public class EZ_GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void forgotPasswordLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPasswordLabelMouseClicked
+        // TODO add your handling code here:
+      
+    }//GEN-LAST:event_forgotPasswordLabelMouseClicked
+ 
+    
     /**
      * @param args the command line arguments
      */
@@ -105,6 +127,8 @@ public class EZ_GUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new EZ_GUI().setVisible(true);
+                
+                
             }
         });
     }
@@ -112,6 +136,7 @@ public class EZ_GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backgroundjLabel;
     private javax.swing.JLabel ezTitleLabel;
+    private javax.swing.JLabel forgotPasswordLabel;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField passwordTextField;
