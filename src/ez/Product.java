@@ -38,12 +38,20 @@ public class Product
         return quantity;
     }
    
-    /** Returns the unit price for the current product
+    /** Returns the cost per unit for the current product
      * @return The price for the given product
      */
     public double getUnitPrice()
     {
         return unitPrice;
+    }
+    
+    /**Returns the cost per unit for the current product
+     * @return The price per cost for the given product
+     */
+    public double getUnitCost()
+    {
+        return unitCost;
     }
     
     /**
