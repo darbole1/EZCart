@@ -79,7 +79,8 @@ public class Inventory implements Iterable<Product>
             };
     }
     
-    public void calculateCost()
+    /**Calculates the cost for all product in inventory*/
+    private void calculateCost()
     {
         for(Product p : inventory )
         {
@@ -87,7 +88,8 @@ public class Inventory implements Iterable<Product>
         }
     }
     
-    public void calculateRevenue()
+    /**Calculates the revenue for all product in inventory*/
+    private void calculateRevenue()
     {
         for(Product p : inventory )
         {
@@ -96,9 +98,33 @@ public class Inventory implements Iterable<Product>
     }
     
     /**Calculates the profit on all products in the inventory*/
-    public void calculateProfit()
+    private void calculateProfit()
     {
         profit = revenue - cost;
+    }
+    
+    /**Returns the revenue for all products
+     @return revenue*/
+    public double getRevenue()
+    {
+        invt.calculateRevenue();
+        return revenue;
+    }
+    
+    /**Returns the cost for all products currently in inventory
+     @return cost*/
+    public double getCost()
+    {
+        invt.calculateCost();
+        return cost;
+    }
+    
+    /**Returns the profit for all products currently in inventory
+     @return profit*/
+    public double getProfit()
+    {
+        invt.calculateProfit();
+        return profit;
     }
     
     private static Inventory invt = new Inventory();

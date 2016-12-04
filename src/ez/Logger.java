@@ -138,13 +138,31 @@ public class Logger
         return validated;
     }
     
+    /**Method that will log customer in the system
+     * @param userN username entered by user
+     * @param pwd password entered by user
+     * @return message to indicate to user whether login was successful
+     * or not
+     */
+    public String login(String userN, String pwd)
+    {
+        if(logEn.validateCredentials(userN, pwd))        
+        {
+            return "Logged in successfully";
+        }
+        else
+        {
+            return "Username and Password combination not correct\n";
+        }
+    }
+    
     /**Checks to see if information provided
      * by user to log in is valid
      * @param userN username provided by the user to be validated
      * @param pwd password provided by user to be validated
      * @return 
      */
-    public boolean login(String userN, String pwd)
+    private boolean validateCredentials(String userN, String pwd)
     {
         boolean validated = false;
         
