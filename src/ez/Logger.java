@@ -124,7 +124,7 @@ public class Logger
             }
             
             //Check for special character
-            if(Character.isLetterOrDigit(symbol) && Character.isSpaceChar(symbol))
+            if(!(Character.isLetterOrDigit(symbol) && Character.isSpaceChar(symbol)))
             {
                 specialChar = true;
             }            
