@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 
 import ez.Logger;
 
@@ -15,12 +16,13 @@ import ez.Logger;
 public class createUserView extends JFrame{
     
     private JButton buttonCreate;
-    private JLabel firstNameLabel, lastNameLabel, userNameLabel, passwordLabel;
+    private JLabel firstNameLabel, lastNameLabel, userNameLabel, passwordLabel, accTypeLabel;
     private JTextField firstNameTextField, lastNameTextField, userNameTextField, passwordTextField;
+    private JComboBox actTypeList;
     private int accType = 0; //o is a customer account, 1 is a seller account
 
     public createUserView(){
-        //createNewUserView has shopping cart view
+        //createNewUserView builds the shopping cart view
         createNewUserView();
     
         setTitle("Register a New User");
@@ -101,8 +103,15 @@ public class createUserView extends JFrame{
         passwordTextField.setPreferredSize(new Dimension(500, 25));
         centerPanel.add(passwordTextField);
         
-        
-        //need account type option here
+         //add Account type label & drop-down option
+        accTypeLabel = new JLabel("Account Type:");
+        accTypeLabel.setPreferredSize(new Dimension(200, 25));
+        centerPanel.add(accTypeLabel);
+
+        String[] accountStrings = {"Customer", "Seller"};
+        actTypeList = new JComboBox(accountStrings);
+        actTypeList.setSelectedIndex(0);
+        centerPanel.add(actTypeList);
 
         //create the "create user" button
         buttonCreate = new JButton("Create User");
@@ -110,34 +119,39 @@ public class createUserView extends JFrame{
         buttonCreate.addActionListener(new onClickCreateUser());
         centerPanel.add(buttonCreate);
 
-        getContentPane().add(panel);
-        
+        getContentPane().add(panel);        
        }
     
-      /**
+    /**
      * onClickCreateUser
      *
-     * @description 
-     * 
-     * 0 if it is a customer's account, 1 if it is a seller account
+     * @description this method reads, first name, last name, user name,
+     * password and account type, then passes then as parameters to the register
+     * method to create a new customer or seller and returns a message with the
+     * result
      */
      private class onClickCreateUser implements ActionListener {
        
         @Override
         public void actionPerformed(ActionEvent e) {
-         
-           
+                    
             String fName = userNameTextField.getText();
             String lName = passwordTextField.getText();
             String userN = userNameTextField.getText();
             String pwd = passwordTextField.getText();
-           // int accType = accountTypeSelection;
-            int accType =1;
-            
+            accType = actTypeList.getSelectedIndex();
+                      
             Logger log = Logger.getInstance();
             String createUserResult = log.register(fName, lName, userN, pwd, accType);
 
-            JOptionPane.showMessageDialog(null, createUserResult);
+            if(createUserResult.contains("successfully")){
+                createUserResult += ". You can close this Window now";
+                JOptionPane.showMessageDialog(null, createUserResult);
+                
+            }
+            else{
+                 JOptionPane.showMessageDialog(null, createUserResult);
+            }            
         }
     }
     

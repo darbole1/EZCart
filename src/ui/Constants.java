@@ -7,8 +7,8 @@ package ui;
 
 /**
  *
- * @author DiegoArboleda
+ * @author SOLO CALI
  */
-public class cartView {
+public class Constants {
     
 }

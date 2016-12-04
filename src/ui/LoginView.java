@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
  * @author DiegoArboleda
  */
 public class LoginView extends javax.swing.JFrame {
-
+       private boolean loggedIn;
     /**
      * Creates new form LoginView
      */
@@ -115,8 +115,17 @@ public class LoginView extends javax.swing.JFrame {
 
         Logger log = Logger.getInstance();
         String loginResult = log.login(userN, pwd);
-
-        JOptionPane.showMessageDialog(null, loginResult);
+        
+        if (loginResult.contains("successfully")) {
+            
+            loggedIn = true;
+            loginResult += ". You can close this Window now";
+            JOptionPane.showMessageDialog(null, loginResult);   
+            
+        } else {
+            loggedIn = false;
+            JOptionPane.showMessageDialog(null, loginResult);
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
  
  

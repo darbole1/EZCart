@@ -37,7 +37,7 @@ public class Logger
     {
         if(!checkUsernameAvail(userN))
         {
-            return "The username " + userN + " is already taken./nPlease choose"
+            return "The username " + userN + " is already taken.\nPlease choose"
                     + " another username";
         }
         else
