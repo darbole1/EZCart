@@ -22,6 +22,13 @@ public class LoginView extends javax.swing.JFrame {
     public void showLoginView(){
      new LoginView().setVisible(true);
 }
+    
+       /**
+     * The hideLoginView method is used to set the LoginView JFrame NOT visible
+     */
+    public void hideLoginView(){
+     new LoginView().setVisible(false);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.

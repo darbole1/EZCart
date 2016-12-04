@@ -22,7 +22,7 @@ public class createUserView extends JFrame{
     private int accType = 0; //o is a customer account, 1 is a seller account
 
     public createUserView(){
-        //createNewUserView builds the shopping cart view
+        //createNewUserView builds the create user view
         createNewUserView();
     
         setTitle("Register a New User");
@@ -37,6 +37,13 @@ public class createUserView extends JFrame{
      */
        public void showNewUserView() {
         new createUserView().setVisible(true);
+    }
+       
+         /**
+     * The hideNewUserView method is used to set the Create new user View JFrame NOT visible
+     */
+       public void hideNewUserView() {
+        new createUserView().setVisible(false);
     }
 
     /**
