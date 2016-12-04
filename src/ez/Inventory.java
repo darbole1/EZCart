@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public class Inventory implements Iterable<Product>
+public class Inventory implements Iterable<InventoryItem>
 {
     private Inventory()
     {
@@ -22,17 +22,17 @@ public class Inventory implements Iterable<Product>
     /**Method that will return the only instance of that class
      * @return The only instance of the class
      */
-    public Inventory getInstance()
+    public static Inventory getInstance()
     {
         return invt;
     }
     
     /**Adds a new product to the inventory
-     * @param prod new product to be added
+     * @param item new product to be added
      */
-    public void addNewProduct(Product prod)
+    public void addNewProduct(InventoryItem item)
     {
-        inventory.add(prod);
+        inventory.add(item);
     }
     
     /**Remove a product from the inventory
@@ -45,15 +45,15 @@ public class Inventory implements Iterable<Product>
     
    
     @Override
-    public Iterator<Product> iterator()
+    public Iterator<InventoryItem> iterator()
     {
         return inventory.iterator();
     }
     
-    public Iterator<Product> getProducts()
+    public Iterator<InventoryItem> getInventoryItem()
     {
         return new
-            Iterator<Product>()
+            Iterator<InventoryItem>()
             {
                 @Override
                 public boolean hasNext()
@@ -62,9 +62,9 @@ public class Inventory implements Iterable<Product>
                 }
                 
                 @Override
-                public Product next()
+                public InventoryItem next()
                 {
-                    Product pd = inventory.get(current);
+                    InventoryItem pd = inventory.get(current);
                     current++;
                     return pd;
                 }
@@ -82,7 +82,7 @@ public class Inventory implements Iterable<Product>
     /**Calculates the cost for all product in inventory*/
     private void calculateCost()
     {
-        for(Product p : inventory )
+        for(InventoryItem p : inventory )
         {
             cost = p.getUnitCost() * p.getQuantity();
         }
@@ -91,7 +91,7 @@ public class Inventory implements Iterable<Product>
     /**Calculates the revenue for all product in inventory*/
     private void calculateRevenue()
     {
-        for(Product p : inventory )
+        for(InventoryItem p : inventory )
         {
             revenue = p.getUnitPrice() * p.getQuantity();
         }
@@ -128,7 +128,7 @@ public class Inventory implements Iterable<Product>
     }
     
     private static Inventory invt = new Inventory();
-    private static ArrayList<Product> inventory;
+    private static ArrayList<InventoryItem> inventory;
     private double profit; //Total profit on the whole inventory
     private double cost; //Total cost for the whole inventory
     private double revenue; //Total revenue on the whole inventory   

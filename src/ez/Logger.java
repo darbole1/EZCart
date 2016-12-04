@@ -19,7 +19,7 @@ public class Logger
     /**Returns the only instance of the Logger class
      * @return The only object of the class Logger
      */
-    public Logger getInstance()
+    public static Logger getInstance()
     {
         return logEn;
     }
@@ -152,7 +152,7 @@ public class Logger
         }
         else
         {
-            return "Username and Password combination not correct\n";
+            return "Username and Password combination is not correct\n";
         }
     }
     

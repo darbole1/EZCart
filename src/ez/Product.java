@@ -13,10 +13,10 @@ public class Product
      * @param price Price per unity for the product
      * @param desc Description details for the product
      */
-    public Product( String prodName, int qty, double cost, double price, String desc )
+    public Product( String prodName, double cost, double price, String desc )
     {
         this.name = prodName;
-        this.quantity = qty;
+        //this.quantity = qty;
         this.unitCost = cost;
         this.unitPrice = price;
         this.description = desc;
@@ -29,15 +29,7 @@ public class Product
     {
         return name;
     }
-    
-    /**Returns the quantity for the current product
-     * @return current quantity for product
-     */
-    public int getQuantity()
-    {
-        return quantity;
-    }
-   
+ 
     /** Returns the cost per unit for the current product
      * @return The price for the given product
      */
@@ -63,17 +55,9 @@ public class Product
         return description;
     }
     
-    /**Updates the quantity for a product
-     @param qty New quantity for the given product
-    */
-    public void updateQuantity(int qty)
-    {
-        quantity = qty;
-    }
-    
-    
+       
     private String name;
-    private int quantity;
+    //private int quantity;
     private double unitPrice;
     private double unitCost;
     private String description;    
