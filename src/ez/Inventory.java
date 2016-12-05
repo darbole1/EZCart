@@ -5,11 +5,12 @@
  */
 package ez;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public class Inventory implements Iterable<InventoryItem>
+public class Inventory implements Iterable<InventoryItem>, Serializable
 {
     private Inventory()
     {
@@ -131,5 +132,6 @@ public class Inventory implements Iterable<InventoryItem>
     private static ArrayList<InventoryItem> inventory;
     private double profit; //Total profit on the whole inventory
     private double cost; //Total cost for the whole inventory
-    private double revenue; //Total revenue on the whole inventory   
+    private double revenue; //Total revenue on the whole inventory 
+    private static final long serialVersionID = 2L;
 }

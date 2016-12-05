@@ -1,11 +1,14 @@
 
 package ez;
 
+import java.io.Serializable;
+
+
 /**
  *
  * @author Spinal
  */
-public class Account 
+public class Account implements Serializable
 {
     /**Account constructor
      * @param fName Customer's first name
@@ -54,5 +57,6 @@ public class Account
     private String lastName;
     private String userName;
     private String password;
-    private int accountType;    
+    private int accountType; 
+    private static final long serialVersionID = 1L; 
 }
