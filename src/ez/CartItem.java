@@ -5,11 +5,13 @@
  */
 package ez;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Spinal
  */
-public class CartItem extends Product
+public class CartItem extends Product implements Serializable
 {
     public CartItem(String prodName, double cost, double price, String desc)
     {
@@ -33,5 +35,6 @@ public class CartItem extends Product
         return quantity;
     }
     
-    private int quantity;    
+    private int quantity;   
+    private static final long serialVersionID = 5L;
 }

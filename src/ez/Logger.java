@@ -5,12 +5,13 @@
  */
 package ez;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Logger 
+public class Logger implements Serializable
 {
     /**Definition of the Logger Constructor*/
-    private Logger()
+    private Logger() 
     {
         //List that will hold all of the accounts in the system
         Accounts = new ArrayList<>();

@@ -5,11 +5,13 @@
  */
 package ez;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Spinal
  */
-public class InventoryItem extends Product
+public class InventoryItem extends Product implements Serializable
 {
     public InventoryItem(String prodName, double cost, double price, String desc, int qty)
     {
@@ -24,7 +26,13 @@ public class InventoryItem extends Product
     {
         return quantity;
     }
+    
+    public void updateQuantity(int qty )
+    {
+        this.quantity = qty;
+    }
    
     
     private int quantity;
+    private static final long serialVersionID = 3L;
 }
