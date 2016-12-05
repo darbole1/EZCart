@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import ui.Constants;
 
 /**
  *
@@ -15,6 +16,7 @@ public class SystemView extends JFrame{
     private JButton buttonLogin, buttonCreateUser,buttonAddToCart, buttonCartView;
     private JLabel productNameLabel;
     private JTextField  productDtlsTextField;  
+    Constants constant = new Constants();
     
     public SystemView(){
                        
@@ -27,6 +29,31 @@ public class SystemView extends JFrame{
         setLocationRelativeTo(null);
         setResizable(false);    
 }   
+    
+        
+     /**
+     * The showSystemView method is used to set the LoginView JFrame visible
+     */
+    public void showSystemView(){
+        
+        if(constant.loggedIn)
+        {
+            buttonLogin.setVisible(false);
+            buttonCreateUser.setVisible(false);
+            setVisible(true);
+        }
+        else{
+              setVisible(true);
+              buttonCartView.setVisible(false);
+        }
+}
+    
+       /**
+     * The hideSystemView method is used to set the LoginView JFrame NOT visible
+     */
+    public void hideSystemView(){
+        setVisible(false);
+}
     
     /**
      * createSystemView
@@ -107,6 +134,7 @@ public class SystemView extends JFrame{
         @Override
         public void actionPerformed(ActionEvent e) {
             LoginView loginView = new LoginView();
+            hideSystemView();
             loginView.showLoginView();
         }
     }
@@ -122,6 +150,7 @@ public class SystemView extends JFrame{
         @Override
         public void actionPerformed(ActionEvent e) {
             createUserView userView = new createUserView();
+            hideSystemView();
             userView.showNewUserView();
         }
     }
@@ -158,6 +187,8 @@ public class SystemView extends JFrame{
         public void actionPerformed(ActionEvent e) {
             cartView CartView = new cartView();
             CartView.showCartView();
+            hideSystemView();
+            
         }
     }
      

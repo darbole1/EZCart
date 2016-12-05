@@ -8,7 +8,9 @@ import javax.swing.JOptionPane;
  * @author DiegoArboleda
  */
 public class LoginView extends javax.swing.JFrame {
-       private boolean loggedIn;
+    
+      Constants constant = new Constants();
+      
     /**
      * Creates new form LoginView
      */
@@ -22,14 +24,14 @@ public class LoginView extends javax.swing.JFrame {
      * The showLoginView method is used to set the LoginView JFrame visible
      */
     public void showLoginView(){
-     new LoginView().setVisible(true);
+        setVisible(true);
 }
     
        /**
      * The hideLoginView method is used to set the LoginView JFrame NOT visible
      */
     public void hideLoginView(){
-     new LoginView().setVisible(false);
+        setVisible(false);
 }
 
     /**
@@ -48,6 +50,7 @@ public class LoginView extends javax.swing.JFrame {
         ezTitleLabel = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
         forgotPasswordLabel = new javax.swing.JLabel();
+        backToInventoryButton = new javax.swing.JButton();
         backgroundjLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -59,7 +62,7 @@ public class LoginView extends javax.swing.JFrame {
         usernameLabel.setForeground(new java.awt.Color(0, 0, 0));
         usernameLabel.setText("User Name:");
         getContentPane().add(usernameLabel);
-        usernameLabel.setBounds(200, 100, 80, 19);
+        usernameLabel.setBounds(330, 110, 80, 19);
 
         passwordLabel.setBackground(new java.awt.Color(255, 255, 255));
         passwordLabel.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -67,17 +70,17 @@ public class LoginView extends javax.swing.JFrame {
         passwordLabel.setText("Password:");
         passwordLabel.setToolTipText("");
         getContentPane().add(passwordLabel);
-        passwordLabel.setBounds(200, 130, 72, 19);
+        passwordLabel.setBounds(330, 140, 72, 19);
         getContentPane().add(userNameTextField);
-        userNameTextField.setBounds(310, 100, 100, 19);
+        userNameTextField.setBounds(440, 110, 100, 19);
         getContentPane().add(passwordTextField);
-        passwordTextField.setBounds(310, 130, 100, 19);
+        passwordTextField.setBounds(440, 140, 100, 19);
 
         ezTitleLabel.setFont(new java.awt.Font("Mongolian Baiti", 0, 48)); // NOI18N
         ezTitleLabel.setForeground(new java.awt.Color(0, 102, 51));
         ezTitleLabel.setText("EZ Shopping");
         getContentPane().add(ezTitleLabel);
-        ezTitleLabel.setBounds(170, 30, 290, 50);
+        ezTitleLabel.setBounds(300, 40, 290, 50);
 
         loginButton.setForeground(new java.awt.Color(0, 0, 0));
         loginButton.setText("Login");
@@ -87,7 +90,7 @@ public class LoginView extends javax.swing.JFrame {
             }
         });
         getContentPane().add(loginButton);
-        loginButton.setBounds(310, 170, 100, 25);
+        loginButton.setBounds(440, 180, 100, 25);
 
         forgotPasswordLabel.setForeground(new java.awt.Color(0, 0, 0));
         forgotPasswordLabel.setText("Forgot Password");
@@ -97,17 +100,29 @@ public class LoginView extends javax.swing.JFrame {
             }
         });
         getContentPane().add(forgotPasswordLabel);
-        forgotPasswordLabel.setBounds(310, 210, 110, 15);
+        forgotPasswordLabel.setBounds(440, 220, 110, 15);
+
+        backToInventoryButton.setText("Back To Inventory");
+        backToInventoryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backToInventoryButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(backToInventoryButton);
+        backToInventoryButton.setBounds(430, 460, 140, 25);
 
         backgroundjLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ez/imgs/background_color.jpg"))); // NOI18N
+        backgroundjLabel.setMaximumSize(new java.awt.Dimension(900, 600));
+        backgroundjLabel.setMinimumSize(new java.awt.Dimension(900, 600));
+        backgroundjLabel.setName(""); // NOI18N
         getContentPane().add(backgroundjLabel);
-        backgroundjLabel.setBounds(0, 0, 630, 500);
+        backgroundjLabel.setBounds(0, 0, 900, 600);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void forgotPasswordLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPasswordLabelMouseClicked
-        // TODO add your handling code here:
+        // Code to open forgot password window
       
     }//GEN-LAST:event_forgotPasswordLabelMouseClicked
 
@@ -127,18 +142,30 @@ public class LoginView extends javax.swing.JFrame {
         
         if (loginResult.contains("successfully")) {
             
-            loggedIn = true;
-            loginResult += ". You can close this Window now";
-            JOptionPane.showMessageDialog(null, loginResult);   
+           
+            loginResult += ". You will now be redirected to the inventory.";
+            JOptionPane.showMessageDialog(null, loginResult);
+                       
+            SystemView systemView = new SystemView();
+            hideLoginView();
+            constant.loggedIn = true;            
+            systemView.showSystemView();   
             
         } else {
-            loggedIn = false;
+            constant.loggedIn = false;
             JOptionPane.showMessageDialog(null, loginResult);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void backToInventoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToInventoryButtonActionPerformed
+            SystemView systemView = new SystemView();
+            setVisible(false);
+            systemView.showSystemView();
+    }//GEN-LAST:event_backToInventoryButtonActionPerformed
  
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backToInventoryButton;
     private javax.swing.JLabel backgroundjLabel;
     private javax.swing.JLabel ezTitleLabel;
     private javax.swing.JLabel forgotPasswordLabel;

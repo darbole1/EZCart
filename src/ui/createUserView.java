@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
 
 import ez.Logger;
 
@@ -15,11 +14,12 @@ import ez.Logger;
  */
 public class createUserView extends JFrame{
     
-    private JButton buttonCreate;
+    private JButton buttonCreate, buttonBackToSystemView;
     private JLabel firstNameLabel, lastNameLabel, userNameLabel, passwordLabel, accTypeLabel;
     private JTextField firstNameTextField, lastNameTextField, userNameTextField, passwordTextField;
     private JComboBox actTypeList;
     private int accType = 0; //o is a customer account, 1 is a seller account
+    Constants constant = new Constants();
 
     public createUserView(){
         //createNewUserView builds the create user view
@@ -36,14 +36,14 @@ public class createUserView extends JFrame{
      * The showNewUserView method is used to set the Create new user View JFrame visible
      */
        public void showNewUserView() {
-        new createUserView().setVisible(true);
+            setVisible(true);
     }
        
          /**
      * The hideNewUserView method is used to set the Create new user View JFrame NOT visible
      */
        public void hideNewUserView() {
-        new createUserView().setVisible(false);
+            setVisible(false);
     }
 
     /**
@@ -125,7 +125,13 @@ public class createUserView extends JFrame{
         buttonCreate.setPreferredSize(new Dimension(200, 25));
         buttonCreate.addActionListener(new onClickCreateUser());
         centerPanel.add(buttonCreate);
-
+        
+        //create back to inventory view (main view) button
+        buttonBackToSystemView = new JButton("Back To Inventory");
+        buttonBackToSystemView.setPreferredSize(new Dimension(200, 25));
+        buttonBackToSystemView.addActionListener(new onClickGoBackToSystemView());
+        bottomPanel.add(buttonBackToSystemView);
+        
         getContentPane().add(panel);        
        }
     
@@ -152,8 +158,13 @@ public class createUserView extends JFrame{
             String createUserResult = log.register(fName, lName, userN, pwd, accType);
 
             if(createUserResult.contains("successfully")){
+             
                 createUserResult += ". You can close this Window now";
                 JOptionPane.showMessageDialog(null, createUserResult);
+
+                 SystemView systemView = new SystemView();
+                 setVisible(false);
+                 systemView.showSystemView();
                 
             }
             else{
@@ -161,5 +172,20 @@ public class createUserView extends JFrame{
             }            
         }
     }
-    
+     
+      /**
+     * onClickGoBackToSystemView
+     *
+     * @description this
+     */
+    private class onClickGoBackToSystemView implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            SystemView systemView = new SystemView();
+            setVisible(false);
+            systemView.showSystemView();
+        }
+    }
+
 }
