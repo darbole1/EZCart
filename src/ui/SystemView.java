@@ -10,13 +10,13 @@ import java.awt.event.ActionListener;
  *
  * @author DiegoArboleda
  */
-public class System extends JFrame{
+public class SystemView extends JFrame{
     
     private JButton buttonLogin, buttonCreateUser,buttonAddToCart;
     private JLabel productNameLabel;
     private JTextField  productDtlsTextField;  
     
-    public System(){
+    public SystemView(){
                        
         //createView has main page 'system' which is the inventory view
         createSystemView();
@@ -143,7 +143,7 @@ public class System extends JFrame{
      public static void main(String[] args){
          java.awt.EventQueue.invokeLater(new Runnable(){
             public void run(){
-                new System().setVisible(true);
+                new SystemView().setVisible(true);
             }
         });  
         
