@@ -147,7 +147,8 @@ public class cartView extends JFrame{
         public void actionPerformed(ActionEvent e) {
             SystemView systemView = new SystemView();
             setVisible(false);
-            systemView.showSystemView();            
+            boolean loggedIn=true;
+            systemView.showSystemView(loggedIn);            
         }
     }
 }

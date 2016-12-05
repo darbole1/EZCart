@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import ui.Constants;
+
 
 /**
  *
@@ -16,7 +16,6 @@ public class SystemView extends JFrame{
     private JButton buttonLogin, buttonCreateUser,buttonAddToCart, buttonCartView;
     private JLabel productNameLabel;
     private JTextField  productDtlsTextField;  
-    Constants constant = new Constants();
     
     public SystemView(){
                        
@@ -34,12 +33,13 @@ public class SystemView extends JFrame{
      /**
      * The showSystemView method is used to set the LoginView JFrame visible
      */
-    public void showSystemView(){
+    public void showSystemView(boolean loggedIn){
         
-        if(constant.loggedIn)
+        if(loggedIn)
         {
             buttonLogin.setVisible(false);
             buttonCreateUser.setVisible(false);
+            buttonCartView.setVisible(true);
             setVisible(true);
         }
         else{
@@ -115,6 +115,7 @@ public class SystemView extends JFrame{
         //add the cart view button
         buttonCartView= new JButton("See Shopping Cart");
         buttonCartView.setPreferredSize(new Dimension(200, 25));
+        buttonCartView.setVisible(false);
         buttonCartView.addActionListener( new onClickNavigateToCartView());
         topRightPanel.add(buttonCartView);
         

@@ -8,14 +8,14 @@ import javax.swing.JOptionPane;
  * @author DiegoArboleda
  */
 public class LoginView extends javax.swing.JFrame {
-    
-      Constants constant = new Constants();
-      
+          
+    boolean loggedIn ;
     /**
      * Creates new form LoginView
      */
     public LoginView() {
-        initComponents();   
+        initComponents();  
+     
         setSize(900, 600);
         setLocationRelativeTo(null);
     }
@@ -46,11 +46,11 @@ public class LoginView extends javax.swing.JFrame {
         usernameLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
         userNameTextField = new javax.swing.JTextField();
-        passwordTextField = new javax.swing.JTextField();
         ezTitleLabel = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
         forgotPasswordLabel = new javax.swing.JLabel();
         backToInventoryButton = new javax.swing.JButton();
+        jPasswordField = new javax.swing.JPasswordField();
         backgroundjLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -73,8 +73,6 @@ public class LoginView extends javax.swing.JFrame {
         passwordLabel.setBounds(330, 140, 72, 19);
         getContentPane().add(userNameTextField);
         userNameTextField.setBounds(440, 110, 100, 19);
-        getContentPane().add(passwordTextField);
-        passwordTextField.setBounds(440, 140, 100, 19);
 
         ezTitleLabel.setFont(new java.awt.Font("Mongolian Baiti", 0, 48)); // NOI18N
         ezTitleLabel.setForeground(new java.awt.Color(0, 102, 51));
@@ -110,6 +108,8 @@ public class LoginView extends javax.swing.JFrame {
         });
         getContentPane().add(backToInventoryButton);
         backToInventoryButton.setBounds(430, 460, 140, 25);
+        getContentPane().add(jPasswordField);
+        jPasswordField.setBounds(440, 140, 100, 19);
 
         backgroundjLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ez/imgs/background_color.jpg"))); // NOI18N
         backgroundjLabel.setMaximumSize(new java.awt.Dimension(900, 600));
@@ -135,7 +135,7 @@ public class LoginView extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
           
         String userN = userNameTextField.getText();
-        String pwd = passwordTextField.getText();
+        String pwd = jPasswordField.getText();
 
         Logger log = Logger.getInstance();
         String loginResult = log.login(userN, pwd);
@@ -148,11 +148,11 @@ public class LoginView extends javax.swing.JFrame {
                        
             SystemView systemView = new SystemView();
             hideLoginView();
-            constant.loggedIn = true;            
-            systemView.showSystemView();   
+            loggedIn = true;            
+            systemView.showSystemView(loggedIn);   
             
         } else {
-            constant.loggedIn = false;
+            loggedIn = false;
             JOptionPane.showMessageDialog(null, loginResult);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
@@ -160,7 +160,8 @@ public class LoginView extends javax.swing.JFrame {
     private void backToInventoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToInventoryButtonActionPerformed
             SystemView systemView = new SystemView();
             setVisible(false);
-            systemView.showSystemView();
+             boolean loggedIn = false;
+            systemView.showSystemView(loggedIn);
     }//GEN-LAST:event_backToInventoryButtonActionPerformed
  
  
@@ -169,9 +170,9 @@ public class LoginView extends javax.swing.JFrame {
     private javax.swing.JLabel backgroundjLabel;
     private javax.swing.JLabel ezTitleLabel;
     private javax.swing.JLabel forgotPasswordLabel;
+    private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel passwordLabel;
-    private javax.swing.JTextField passwordTextField;
     private javax.swing.JTextField userNameTextField;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables

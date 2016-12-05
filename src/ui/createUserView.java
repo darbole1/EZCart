@@ -19,7 +19,7 @@ public class createUserView extends JFrame{
     private JTextField firstNameTextField, lastNameTextField, userNameTextField, passwordTextField;
     private JComboBox actTypeList;
     private int accType = 0; //o is a customer account, 1 is a seller account
-    Constants constant = new Constants();
+    
 
     public createUserView(){
         //createNewUserView builds the create user view
@@ -164,7 +164,8 @@ public class createUserView extends JFrame{
 
                  SystemView systemView = new SystemView();
                  setVisible(false);
-                 systemView.showSystemView();
+                 boolean loggedIn = false;
+                 systemView.showSystemView(loggedIn);
                 
             }
             else{
@@ -184,7 +185,8 @@ public class createUserView extends JFrame{
         public void actionPerformed(ActionEvent e) {
             SystemView systemView = new SystemView();
             setVisible(false);
-            systemView.showSystemView();
+             boolean loggedIn = false;
+            systemView.showSystemView(loggedIn);
         }
     }
 
