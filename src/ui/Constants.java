@@ -10,5 +10,7 @@ package ui;
  * @author SOLO CALI
  */
 public class Constants {
-    
+    protected boolean loggedIn;
+    protected double  tax = 3.00;
+
 }

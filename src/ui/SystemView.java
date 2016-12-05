@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
  */
 public class SystemView extends JFrame{
     
-    private JButton buttonLogin, buttonCreateUser,buttonAddToCart;
+    private JButton buttonLogin, buttonCreateUser,buttonAddToCart, buttonCartView;
     private JLabel productNameLabel;
     private JTextField  productDtlsTextField;  
     
@@ -85,6 +85,12 @@ public class SystemView extends JFrame{
         buttonCreateUser.addActionListener( new onClickNavigateToCreateUserPage());
         topRightPanel.add(buttonCreateUser);
         
+        //add the cart view button
+        buttonCartView= new JButton("See Shopping Cart");
+        buttonCartView.setPreferredSize(new Dimension(200, 25));
+        buttonCartView.addActionListener( new onClickNavigateToCartView());
+        topRightPanel.add(buttonCartView);
+        
         getContentPane().add(panel);
     }
        
@@ -137,6 +143,21 @@ public class SystemView extends JFrame{
             
 //            createUserView userView = new createUserView();
 //            userView.showNewUserView();
+        }
+    }
+     
+      /**
+     * onClickNavigateToCartView
+     *
+     * @description creates an instance of the createUserView class and calls the
+     * method showNewUserView() to navigate to the Login Page
+     */
+     private class onClickNavigateToCartView implements ActionListener {
+       
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            cartView CartView = new cartView();
+            CartView.showCartView();
         }
     }
      
