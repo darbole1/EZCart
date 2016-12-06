@@ -14,7 +14,7 @@ public class Logger implements Serializable
     private Logger() 
     {
         //List that will hold all of the accounts in the system
-        Accounts = new ArrayList<>();
+        accounts = new ArrayList<>();
     }
     
     /**Returns the only instance of the Logger class
@@ -46,7 +46,7 @@ public class Logger implements Serializable
             if(validatePassword(pwd))
             {
                 Account acc = new Account(first, last, userN, pwd, accType);
-                Accounts.add(acc);
+                accounts.add(acc);
                 return "Account successfully created";
             }
             else
@@ -70,7 +70,7 @@ public class Logger implements Serializable
     {
         boolean avail = true;
         
-        for( Account acc : Accounts )
+        for( Account acc : accounts )
         {
             if (acc.getUserName().equals(userN))
             {
@@ -167,7 +167,7 @@ public class Logger implements Serializable
     {
         boolean validated = false;
         
-        for( Account acc : Accounts )
+        for( Account acc : accounts )
         {
             if(acc.getUserName().equals(userN))
             {
@@ -181,7 +181,27 @@ public class Logger implements Serializable
         return validated;
     }
     
+    /**Returns an integer indicating the customer's account type:
+     * 0 if account is a customer's account
+     * 1 if account is a seller account
+     * @param userName username to search to find a given account
+     * @return the integer that indicate the account type
+     *  returns -1 if that username passed is not found in the list
+     * (meaning that this account does not exist in the system)
+     */
+    public int getCustomerAccountType(String userName)
+    {
+        for( Account acc : accounts )
+        {
+            if( acc.getUserName().equals(userName) )
+            {
+                return acc.getAccountType();
+            }
+        }
+        return -1;
+    }
+    
     private static Logger logEn = new Logger();
-    private ArrayList<Account> Accounts;
+    private ArrayList<Account> accounts;
     final private int PWDLEN = 8;
 }
