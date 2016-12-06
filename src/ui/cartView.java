@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+import ui.SystemView;
+
 /**
  *
  * @author DiegoArboleda
@@ -19,10 +21,10 @@ public class cartView extends JFrame{
     
     private JButton buttonClearCart, buttonRemoveItem, buttonCheckout, buttonContShopping;
     private JLabel productNameLabel, quantityLabel, pricePunitLabel, pricePitemLabel, totalLabel, taxLabel, shippingPriceLabel;
-   
     private JComboBox quantityBox;
     private double  tax = 3.00;
     private double  shippingPrice = 5.00;
+    boolean loggedIn;
      
      
     public cartView(){
@@ -143,12 +145,12 @@ public class cartView extends JFrame{
      */
      private class onClickGoBackToSystemView implements ActionListener {
        
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            SystemView systemView = new SystemView();
-            setVisible(false);
-            boolean loggedIn=true;
-            systemView.showSystemView(loggedIn);            
-        }
+         @Override
+         public void actionPerformed(ActionEvent e) {
+             SystemView systemView = new SystemView();
+             setVisible(false);
+             loggedIn = true;             
+             systemView.showSystemView(loggedIn );
+         }
     }
 }

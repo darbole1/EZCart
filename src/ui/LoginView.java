@@ -14,8 +14,7 @@ public class LoginView extends javax.swing.JFrame {
      * Creates new form LoginView
      */
     public LoginView() {
-        initComponents();  
-     
+        initComponents();       
         setSize(900, 600);
         setLocationRelativeTo(null);
     }
@@ -141,15 +140,14 @@ public class LoginView extends javax.swing.JFrame {
         String loginResult = log.login(userN, pwd);
         
         if (loginResult.contains("successfully")) {
-            
-           
+                       
             loginResult += ". You will now be redirected to the inventory.";
             JOptionPane.showMessageDialog(null, loginResult);
                        
             SystemView systemView = new SystemView();
             hideLoginView();
             loggedIn = true;            
-            systemView.showSystemView(loggedIn);   
+            systemView.showSystemViewAfterLogin(loggedIn, userN);   
             
         } else {
             loggedIn = false;
@@ -160,7 +158,7 @@ public class LoginView extends javax.swing.JFrame {
     private void backToInventoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToInventoryButtonActionPerformed
             SystemView systemView = new SystemView();
             setVisible(false);
-             boolean loggedIn = false;
+            loggedIn = false;
             systemView.showSystemView(loggedIn);
     }//GEN-LAST:event_backToInventoryButtonActionPerformed
  

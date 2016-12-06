@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import ez.Logger;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 /**
  *
@@ -19,6 +20,7 @@ public class createUserView extends JFrame{
     private JTextField firstNameTextField, lastNameTextField, userNameTextField, passwordTextField;
     private JComboBox actTypeList;
     private int accType = 0; //o is a customer account, 1 is a seller account
+    private boolean loggedIn;
     
 
     public createUserView(){
@@ -153,24 +155,26 @@ public class createUserView extends JFrame{
             String userN = userNameTextField.getText();
             String pwd = passwordTextField.getText();
             accType = actTypeList.getSelectedIndex();
-                      
-            Logger log = Logger.getInstance();
-            String createUserResult = log.register(fName, lName, userN, pwd, accType);
-
-            if(createUserResult.contains("successfully")){
-             
-                createUserResult += ". You can close this Window now";
-                JOptionPane.showMessageDialog(null, createUserResult);
-
-                 SystemView systemView = new SystemView();
-                 setVisible(false);
-                 boolean loggedIn = false;
-                 systemView.showSystemView(loggedIn);
-                
+            
+            if((fName.isEmpty()) || (lName.isEmpty()) || (userN.isEmpty()) || (pwd.isEmpty())){
+                 JOptionPane.showMessageDialog(null, "All fields are required.", "Required Fields", YES_NO_OPTION);
             }
-            else{
-                 JOptionPane.showMessageDialog(null, createUserResult);
-            }            
+            else {
+
+                Logger log = Logger.getInstance();
+                String createUserResult = log.register(fName, lName, userN, pwd, accType);
+
+                if (createUserResult.contains("successfully")) {
+
+                    JOptionPane.showMessageDialog(null, createUserResult);
+                    SystemView systemView = new SystemView();
+                    setVisible(false);
+                    loggedIn = false;
+                    systemView.showSystemView(loggedIn);
+                } else {
+                    JOptionPane.showMessageDialog(null, createUserResult);
+                }
+            }
         }
     }
      
@@ -185,7 +189,7 @@ public class createUserView extends JFrame{
         public void actionPerformed(ActionEvent e) {
             SystemView systemView = new SystemView();
             setVisible(false);
-             boolean loggedIn = false;
+            loggedIn = false;
             systemView.showSystemView(loggedIn);
         }
     }
