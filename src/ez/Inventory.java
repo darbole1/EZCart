@@ -55,8 +55,7 @@ public class Inventory implements Iterable<InventoryItem>
            itm.updateProduct(prodName, prodPrice, prodCost, prodDesc);
            itm.updateQuantity(qty);
         }
-    }
-    
+    }    
    
     @Override
     public Iterator<InventoryItem> iterator()
