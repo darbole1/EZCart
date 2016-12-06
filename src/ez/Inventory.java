@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public class Inventory implements Iterable<InventoryItem>, Serializable
+public class Inventory implements Iterable<InventoryItem>
 {
     private Inventory()
     {
@@ -29,11 +29,15 @@ public class Inventory implements Iterable<InventoryItem>, Serializable
     }
     
     /**Adds a new product to the inventory
-     * @param item new product to be added
+     * @param prodName name of new product to be added
+     * @param cost cost of new product to be added
+     * @param price price of new product to be added
+     * @param desc description of new product to be added
+     * @param qty quantity of new product to be added
      */
-    public void addNewProduct(InventoryItem item)
-    {
-        inventory.add(item);
+    public void addNewProduct(String prodName, double cost, double price, String desc, int qty)
+    {        
+        inventory.add( new InventoryItem(prodName, cost, price, desc, qty));
     }
     
     /**Remove a product from the inventory
@@ -133,5 +137,5 @@ public class Inventory implements Iterable<InventoryItem>, Serializable
     private double profit; //Total profit on the whole inventory
     private double cost; //Total cost for the whole inventory
     private double revenue; //Total revenue on the whole inventory 
-    private static final long serialVersionID = 2L;
+    //private static final long serialVersionID = 2L;
 }

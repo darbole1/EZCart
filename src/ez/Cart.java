@@ -13,7 +13,7 @@ import java.util.Iterator;
  *
  * @author Spinal
  */
-public class Cart implements Iterable<CartItem>, Serializable
+public class Cart implements Iterable<CartItem>
 {
     /**Constructor for class Cart
      * Will instantiate the state of one object only for that class
@@ -150,5 +150,5 @@ public class Cart implements Iterable<CartItem>, Serializable
     private int cartCount;
     private ArrayList<CartItem> shoppingCart;
     private static Cart cart = new Cart();
-    private static final long serialVersionID = 4L;
+    //private static final long serialVersionID = 4L;
 }

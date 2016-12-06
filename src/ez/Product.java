@@ -8,7 +8,6 @@ public class Product
 {
     /**Constructor for a product
      * @param prodName Name of the product
-     * @param qty Quantity for the given product
      * @param cost Cost for the product
      * @param price Price per unity for the product
      * @param desc Description details for the product

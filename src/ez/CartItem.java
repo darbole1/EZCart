@@ -36,5 +36,5 @@ public class CartItem extends Product implements Serializable
     }
     
     private int quantity;   
-    private static final long serialVersionID = 5L;
+    private static final long serialVersionID = 3L;
 }

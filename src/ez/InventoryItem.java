@@ -34,5 +34,5 @@ public class InventoryItem extends Product implements Serializable
    
     
     private int quantity;
-    private static final long serialVersionID = 3L;
+    private static final long serialVersionID = 2L;
 }
