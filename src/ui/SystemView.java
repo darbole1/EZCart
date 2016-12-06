@@ -1,4 +1,3 @@
-
 package ui;
 
 import ez.Logger;
@@ -6,22 +5,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 /**
  *
  * @author DiegoArboleda
  */
-public class SystemView extends JFrame{
-    
-    private JButton buttonLogin, buttonCreateUser,buttonAddToCart, buttonCartView, buttonLogOut;
+public class SystemView extends JFrame {
+
+    private JButton buttonLogin, buttonCreateUser, buttonAddToCart, buttonCartView, buttonLogOut, buttonRemoveProd;
     private JLabel productNameLabel, loggedUser;
-    private JTextField  productDtlsTextField;  
-    boolean loggedIn;
+    private JTextField productDtlsTextField;
+    boolean loggedInFlag;
     private String userLoggedIn;
-    
-    public SystemView(){
-                       
+
+    public SystemView() {
+
         //createView has main page 'system' which is the inventory view
         createSystemView();
 
@@ -29,69 +28,67 @@ public class SystemView extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(900, 600);
         setLocationRelativeTo(null);
-        setResizable(false);    
-}   
-    
-        
-     /**
+        setResizable(false);
+    }
+
+    /**
      * The showSystemView method is used to set the LoginView JFrame visible
      */
-    public void showSystemView(boolean loggedIn){
-        
-        if(loggedIn)
-        {
+    public void showSystemView(boolean loggedIn) {
+
+        if (loggedIn) {
             buttonLogin.setVisible(false);
             buttonCreateUser.setVisible(false);
             buttonCartView.setVisible(true);
             buttonLogOut.setVisible(true);
             setVisible(true);
-        }
-        else{
+        } else {
             setVisible(true);
             buttonCartView.setVisible(false);
         }
-}
-    
-      public void showSystemViewAfterLogin(boolean loggedIn, String uName){
-        
-        if(loggedIn)
-        {
+    }
+
+    public void showSystemViewAfterLogin(boolean loggedIn, String uName) {
+
+        if (loggedIn) {
+
             userLoggedIn = uName;
             buttonLogin.setVisible(false);
             buttonCreateUser.setVisible(false);
             buttonCartView.setVisible(true);
             buttonLogOut.setVisible(true);
             loggedUser.setText("Logged in as, " + userLoggedIn);
+            loggedInFlag = true;
             loggedUser.setVisible(true);
             setVisible(true);
+
+        } else {
+            setVisible(true);
+            buttonCartView.setVisible(false);
         }
-        else{
-              setVisible(true);
-              buttonCartView.setVisible(false);
-        }
-}
-    
-       /**
+    }
+
+    /**
      * The hideSystemView method is used to set the LoginView JFrame NOT visible
      */
-    public void hideSystemView(){
+    public void hideSystemView() {
         setVisible(false);
-}
-    
+    }
+
     /**
      * createSystemView
      *
      * @description creates the UI for the main System view of the application
      */
-    private void createSystemView(){
-        
+    private void createSystemView() {
+
         JPanel panel = new JPanel(new BorderLayout());
         JPanel topPanel = new JPanel();
         panel.add(topPanel, BorderLayout.NORTH);
 
         JPanel topRightPanel = new JPanel();
-        topPanel.add(topRightPanel,BorderLayout.WEST);
-         
+        topPanel.add(topRightPanel, BorderLayout.WEST);
+
         JPanel bottomPanel = new JPanel();
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
@@ -103,11 +100,10 @@ public class SystemView extends JFrame{
 
         JPanel centerPanel = new JPanel();
         panel.add(centerPanel, BorderLayout.CENTER);
-        getContentPane().add(panel);    
-            
-        
+        getContentPane().add(panel);
+
         for (int x = 0; x < 5; x++) {
-            
+
             //add product name label
             productNameLabel = new JLabel("product Name:");
             productNameLabel.setPreferredSize(new Dimension(200, 25));
@@ -115,49 +111,48 @@ public class SystemView extends JFrame{
 
             //add product details  text field
             productDtlsTextField = new JTextField();
-            productDtlsTextField.setPreferredSize(new Dimension(350, 25));  
+            productDtlsTextField.setPreferredSize(new Dimension(350, 25));
             productDtlsTextField.setText("here goes some product details");
             centerPanel.add(productDtlsTextField);
-            
-            buttonAddToCart= new JButton("Add to Cart");
+
+            buttonAddToCart = new JButton("Add to Cart");
             buttonAddToCart.setPreferredSize(new Dimension(200, 25));
-            buttonAddToCart.addActionListener( new onClickAddProductToCart());
-            centerPanel.add(buttonAddToCart);            
+            buttonAddToCart.addActionListener(new onClickAddProductToCart());
+            centerPanel.add(buttonAddToCart);
+
         }
-                
-        buttonLogin= new JButton("Login");
+
+        buttonLogin = new JButton("Login");
         buttonLogin.setPreferredSize(new Dimension(200, 25));
-        buttonLogin.addActionListener( new onClickNavigateToLoginPage());
+        buttonLogin.addActionListener(new onClickNavigateToLoginPage());
         topRightPanel.add(buttonLogin);
-        
-        buttonCreateUser= new JButton("Create new user");
+
+        buttonCreateUser = new JButton("Create new user");
         buttonCreateUser.setPreferredSize(new Dimension(200, 25));
-        buttonCreateUser.addActionListener( new onClickNavigateToCreateUserPage());
+        buttonCreateUser.addActionListener(new onClickNavigateToCreateUserPage());
         topRightPanel.add(buttonCreateUser);
-        
+
         //label for logged user
-        loggedUser= new JLabel();
+        loggedUser = new JLabel();
         loggedUser.setPreferredSize(new Dimension(200, 25));
         loggedUser.setVisible(false);
         topRightPanel.add(loggedUser);
-        
+
         //add the cart view button
-        buttonCartView= new JButton("See Shopping Cart");
+        buttonCartView = new JButton("See Shopping Cart");
         buttonCartView.setPreferredSize(new Dimension(200, 25));
         buttonCartView.setVisible(false);
-        buttonCartView.addActionListener( new onClickNavigateToCartView());
+        buttonCartView.addActionListener(new onClickNavigateToCartView());
         topRightPanel.add(buttonCartView);
-        
-        buttonLogOut= new JButton("Log Out");
+
+        buttonLogOut = new JButton("Log Out");
         buttonLogOut.setPreferredSize(new Dimension(200, 25));
         buttonLogOut.setVisible(false);
-        buttonLogOut.addActionListener( new onClickLogOut());
+        buttonLogOut.addActionListener(new onClickLogOut());
         topRightPanel.add(buttonLogOut);
-        
+
         getContentPane().add(panel);
     }
-       
-      
 
     /**
      * navigateToLoginPage
@@ -166,7 +161,7 @@ public class SystemView extends JFrame{
      * method showLoginPage() to navigate to the Login Page
      */
     private class onClickNavigateToLoginPage implements ActionListener {
-       
+
         @Override
         public void actionPerformed(ActionEvent e) {
             LoginView loginView = new LoginView();
@@ -174,15 +169,15 @@ public class SystemView extends JFrame{
             loginView.showLoginView();
         }
     }
-    
+
     /**
      * navigateToCreateUserPage
      *
-     * @description creates an instance of the createUserView class and calls the
-     * method showNewUserView() to navigate to the Login Page
+     * @description creates an instance of the createUserView class and calls
+     * the method showNewUserView() to navigate to the Login Page
      */
-     private class onClickNavigateToCreateUserPage implements ActionListener {
-       
+    private class onClickNavigateToCreateUserPage implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             createUserView userView = new createUserView();
@@ -190,66 +185,73 @@ public class SystemView extends JFrame{
             userView.showNewUserView();
         }
     }
-     
-      /**
+
+    /**
      * onClickAddProductToCart
      *
      * @description calls the required method to add a product to the cart and
      * shows a message to the user weather the addition was successful or not
      */
-     private class onClickAddProductToCart implements ActionListener {
-       
+    private class onClickAddProductToCart implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            
-            //if addition to cart is successful or not, show message accordingly
-            JOptionPane.showMessageDialog(rootPane, "Addition to Cart Successful!");
-            JOptionPane.showMessageDialog(rootPane, "Addition to Cart NOT Successful!");
-            
+
+            if (loggedInFlag) {
+                //if addition to cart is successful or not, show message accordingly
+                JOptionPane.showMessageDialog(rootPane, "Addition to Cart Successful!");
+                JOptionPane.showMessageDialog(rootPane, "Addition to Cart NOT Successful!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Please Login to continue with your purchase.", "Login Required", YES_NO_OPTION);
+            }
+
+          
+
 //            createUserView userView = new createUserView();
 //            userView.showNewUserView();
         }
     }
-     
-      /**
+
+    /**
      * onClickNavigateToCartView
      *
-     * @description creates an instance of the createUserView class and calls the
-     * method showNewUserView() to navigate to the Login Page
+     * @description creates an instance of the createUserView class and calls
+     * the method showNewUserView() to navigate to the Login Page
      */
-     private class onClickNavigateToCartView implements ActionListener {
-       
+    private class onClickNavigateToCartView implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             cartView CartView = new cartView();
-            CartView.showCartView();
+            CartView.showCartView(userLoggedIn);
             hideSystemView();
-            
         }
     }
-     
-       /**
+
+    /**
      * onClickLogOut
      *
-     * @description creates 
+     * @description creates
      */
-     private class onClickLogOut implements ActionListener {
-       
+    private class onClickLogOut implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
-           loggedIn = false;
-            Logger log = Logger.getInstance();
-            //log.logout();
-            
+            loggedInFlag = false;
+            buttonLogin.setVisible(true);
+            buttonCreateUser.setVisible(true);
+            buttonCartView.setVisible(false);
+            buttonLogOut.setVisible(false);
+            loggedUser.setVisible(false);
         }
     }
-     
-     public static void main(String[] args){
-         java.awt.EventQueue.invokeLater(new Runnable(){
-            public void run(){
+
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
                 new SystemView().setVisible(true);
             }
-        });  
-        
+        });
+
     }
 }

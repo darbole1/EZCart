@@ -11,59 +11,61 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-import ui.SystemView;
 
 /**
  *
  * @author DiegoArboleda
  */
-public class cartView extends JFrame{
-    
+public class cartView extends JFrame {
+
     private JButton buttonClearCart, buttonRemoveItem, buttonCheckout, buttonContShopping;
     private JLabel productNameLabel, quantityLabel, pricePunitLabel, pricePitemLabel, totalLabel, taxLabel, shippingPriceLabel;
     private JComboBox quantityBox;
-    private double  tax = 3.00;
-    private double  shippingPrice = 5.00;
-    boolean loggedIn;
-     
-     
-    public cartView(){
-          //createShoppingCartView builds the shopping cart view
+    private double tax = 3.00;
+    private double shippingPrice = 5.00;
+    private boolean loggedIn;
+private String userLoggedIn;
+
+    public cartView() {
+        //createShoppingCartView builds the shopping cart view
         createShoppingCartView();
-    
+
         setTitle("Register a New User");
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);      
-        setSize(900, 600);       
-        setLocationRelativeTo(null);        
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setSize(900, 600);
+        setLocationRelativeTo(null);
         setResizable(false);
     }
-    
-       /**
-     * The showCartView method is used to set the Create new user View JFrame visible
+
+    /**
+     * The showCartView method is used to set the Create new user View JFrame
+     * visible
      */
-       public void showCartView() {
-            setVisible(true);
+    public void showCartView(String uname) {
+        userLoggedIn = uname;
+        setVisible(true);
     }
-       
-         /**
-     * The hideCartView method is used to set the Create new user View JFrame NOT visible
+
+    /**
+     * The hideCartView method is used to set the Create new user View JFrame
+     * NOT visible
      */
-       public void hideCartView() {
-            setVisible(false);
+    public void hideCartView() {
+        setVisible(false);
     }
-       
-       private void createShoppingCartView(){
-           
+
+    private void createShoppingCartView() {
+
         JPanel panel = new JPanel(new BorderLayout());
         JPanel topPanel = new JPanel();
         panel.add(topPanel, BorderLayout.NORTH);
 
         JPanel topRightPanel = new JPanel();
-        topPanel.add(topRightPanel,BorderLayout.WEST);
-         
+        topPanel.add(topRightPanel, BorderLayout.WEST);
+
         JPanel bottomPanel = new JPanel();
         panel.add(bottomPanel, BorderLayout.SOUTH);
-      
+
         JPanel centerPanel = new JPanel();
         panel.add(centerPanel, BorderLayout.CENTER);
         getContentPane().add(panel);
@@ -77,10 +79,9 @@ public class cartView extends JFrame{
         quantityLabel = new JLabel("Quantity");
         quantityLabel.setPreferredSize(new Dimension(200, 25));
         topPanel.add(quantityLabel);
-        
-        
+
         //adds the quantity selection combo box
-        String[] quantityStrings = {"0","1", "2", "3", "4", "5"};
+        String[] quantityStrings = {"0", "1", "2", "3", "4", "5"};
         quantityBox = new JComboBox(quantityStrings);
         quantityBox.setSelectedIndex(0);
         topPanel.add(quantityBox);
@@ -95,18 +96,14 @@ public class cartView extends JFrame{
         pricePitemLabel.setPreferredSize(new Dimension(200, 25));
         topPanel.add(pricePitemLabel);
 
-        
         //***************************
-        
         //populate here the UI with the products
-        
-         //***************************
-        
+        //***************************
         //add tax  label 
-        taxLabel = new JLabel("Tax: $" +Double.toString(tax));
+        taxLabel = new JLabel("Tax: $" + Double.toString(tax));
         taxLabel.setPreferredSize(new Dimension(200, 25));
-        centerPanel.add(taxLabel);           
-                          
+        centerPanel.add(taxLabel);
+
         //add shipping price label 
         shippingPriceLabel = new JLabel("Shipping: $" + Double.toString(shippingPrice));
         shippingPriceLabel.setPreferredSize(new Dimension(200, 25));
@@ -116,41 +113,39 @@ public class cartView extends JFrame{
         totalLabel = new JLabel("Total: $" + (Double.toString(tax + shippingPrice)));
         totalLabel.setPreferredSize(new Dimension(200, 25));
         centerPanel.add(totalLabel);
-    
+
         //add continue shopping button to view
         buttonContShopping = new JButton("Continue Shopping");
         buttonContShopping.setPreferredSize(new Dimension(200, 25));
         buttonContShopping.addActionListener(new onClickGoBackToSystemView());
         bottomPanel.add(buttonContShopping);
-        
-          //add clear cart button to view
+
+        //add clear cart button to view
         buttonClearCart = new JButton("Clear Cart");
         buttonClearCart.setPreferredSize(new Dimension(200, 25));
         bottomPanel.add(buttonClearCart);
-        
-         //add checkout button to view
+
+        //add checkout button to view
         buttonCheckout = new JButton("Checkout");
         buttonCheckout.setPreferredSize(new Dimension(200, 25));
         bottomPanel.add(buttonCheckout);
-        
-        getContentPane().add(panel); 
-       }
 
-    
-    
-      /**
+        getContentPane().add(panel);
+    }
+
+    /**
      * onClickGoBackToSystemView
      *
      * @description create
      */
-     private class onClickGoBackToSystemView implements ActionListener {
-       
-         @Override
-         public void actionPerformed(ActionEvent e) {
-             SystemView systemView = new SystemView();
-             setVisible(false);
-             loggedIn = true;             
-             systemView.showSystemView(loggedIn );
-         }
+    private class onClickGoBackToSystemView implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            SystemView systemView = new SystemView();
+            setVisible(false);
+            loggedIn = true;
+            systemView.showSystemViewAfterLogin(loggedIn, userLoggedIn);
+        }
     }
 }

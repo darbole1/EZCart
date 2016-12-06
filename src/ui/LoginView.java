@@ -1,6 +1,7 @@
-
 package ui;
+
 import ez.Logger;
+import ez.Account;
 import javax.swing.JOptionPane;
 
 /**
@@ -8,30 +9,33 @@ import javax.swing.JOptionPane;
  * @author DiegoArboleda
  */
 public class LoginView extends javax.swing.JFrame {
-          
-    boolean loggedIn ;
+
+    private boolean loggedIn;
+    private int actType;
+    Logger log = Logger.getInstance();
+
     /**
      * Creates new form LoginView
      */
     public LoginView() {
-        initComponents();       
+        initComponents();
         setSize(900, 600);
         setLocationRelativeTo(null);
     }
-    
-     /**
+
+    /**
      * The showLoginView method is used to set the LoginView JFrame visible
      */
-    public void showLoginView(){
+    public void showLoginView() {
         setVisible(true);
-}
-    
-       /**
+    }
+
+    /**
      * The hideLoginView method is used to set the LoginView JFrame NOT visible
      */
-    public void hideLoginView(){
+    public void hideLoginView() {
         setVisible(false);
-}
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -122,7 +126,7 @@ public class LoginView extends javax.swing.JFrame {
 
     private void forgotPasswordLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPasswordLabelMouseClicked
         // Code to open forgot password window
-      
+
     }//GEN-LAST:event_forgotPasswordLabelMouseClicked
 
     /**
@@ -132,23 +136,28 @@ public class LoginView extends javax.swing.JFrame {
      * the login class for the user to login
      */
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-          
+
         String userN = userNameTextField.getText();
         String pwd = jPasswordField.getText();
-
-        Logger log = Logger.getInstance();
         String loginResult = log.login(userN, pwd);
-        
+
         if (loginResult.contains("successfully")) {
-                       
+
             loginResult += ". You will now be redirected to the inventory.";
             JOptionPane.showMessageDialog(null, loginResult);
-                       
+
             SystemView systemView = new SystemView();
             hideLoginView();
-            loggedIn = true;            
-            systemView.showSystemViewAfterLogin(loggedIn, userN);   
+            loggedIn = true;
+            actType = log.getCustomerAccountType(userN);
             
+            if (actType == 1) {
+                SellerView sellerView = new SellerView();
+                sellerView.showSellerView(userN);
+            } else if (actType == 0) {
+                systemView.showSystemViewAfterLogin(loggedIn, userN);
+            }
+
         } else {
             loggedIn = false;
             JOptionPane.showMessageDialog(null, loginResult);
@@ -156,13 +165,13 @@ public class LoginView extends javax.swing.JFrame {
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void backToInventoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToInventoryButtonActionPerformed
-            SystemView systemView = new SystemView();
-            setVisible(false);
-            loggedIn = false;
-            systemView.showSystemView(loggedIn);
+        SystemView systemView = new SystemView();
+        setVisible(false);
+        loggedIn = false;
+        systemView.showSystemView(loggedIn);
     }//GEN-LAST:event_backToInventoryButtonActionPerformed
- 
- 
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backToInventoryButton;
     private javax.swing.JLabel backgroundjLabel;
