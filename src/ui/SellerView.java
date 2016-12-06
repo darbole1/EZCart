@@ -1,9 +1,12 @@
 package ui;
 
+import ez.Inventory;
+import ez.InventoryItem;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.*;
 import ez.Logger;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,19 +16,19 @@ import java.awt.event.ActionListener;
  */
 public class SellerView extends JFrame {
 
-    private JButton buttonAddToCart, buttonCartView, buttonLogOut, buttonRemoveProd;
+    private JButton buttonUpdateCart, buttonLogOut, buttonRemoveProd, buttonAddNewProd;
     private JLabel productNameLabel, loggedUser;
-    private JTextField productDtlsTextField;
+    private JTextField productDtlsTextField, pName, pDescription, pQuantity, pCost, pPrice;
     private boolean loggedIn;
     private String userLoggedIn;
     private int actType;
     SystemView sellerView = new SystemView();
     Logger log = Logger.getInstance();
+    Inventory inventory = Inventory.getInstance();
 
     public SellerView() {
 
         createSellerView();
-
         setTitle("The Seller EZ Shopping cart");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(900, 600);
@@ -38,12 +41,13 @@ public class SellerView extends JFrame {
      */
     public void showSellerView(String userName) {
         userLoggedIn = userName;
-        loggedUser.setText("Logged in as, " + userLoggedIn);
-        setVisible(true);        
+        loggedUser.setText("Logged in as " + userLoggedIn);
+        setVisible(true);
     }
 
     /**
-     * The hideSellerView method is used to set the SellerView JFrame NOT visible
+     * The hideSellerView method is used to set the SellerView JFrame NOT
+     * visible
      */
     public void hideSellerView() {
         setVisible(false);
@@ -63,7 +67,7 @@ public class SellerView extends JFrame {
         JPanel topRightPanel = new JPanel();
         topPanel.add(topRightPanel, BorderLayout.WEST);
 
-        JPanel bottomPanel = new JPanel();
+        JPanel bottomPanel = new JPanel(new BorderLayout());
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
         JPanel leftPanel = new JPanel();
@@ -86,13 +90,13 @@ public class SellerView extends JFrame {
             //add product details  text field
             productDtlsTextField = new JTextField();
             productDtlsTextField.setPreferredSize(new Dimension(350, 25));
-            productDtlsTextField.setText("here goes some product details");
+          
             centerPanel.add(productDtlsTextField);
 
-            buttonAddToCart = new JButton("Add to Cart");
-            buttonAddToCart.setPreferredSize(new Dimension(100, 25));
-            buttonAddToCart.addActionListener(new onClickAddProductToInventory());
-            centerPanel.add(buttonAddToCart);
+            buttonUpdateCart = new JButton("Update Product");
+            buttonUpdateCart.setPreferredSize(new Dimension(100, 25));
+            buttonUpdateCart.addActionListener(new onClickAddUpdateproduct());
+            centerPanel.add(buttonUpdateCart);
 
             buttonRemoveProd = new JButton("Remove");
             buttonRemoveProd.setPreferredSize(new Dimension(100, 25));
@@ -107,19 +111,17 @@ public class SellerView extends JFrame {
         loggedUser.setVisible(true);
         topRightPanel.add(loggedUser);
 
-        //add the cart view button
-        buttonCartView = new JButton("See Inventory Cart");
-        buttonCartView.setPreferredSize(new Dimension(200, 25));
-        buttonCartView.setVisible(true);
-        buttonCartView.addActionListener(new onClickNavigateToInventoryCartView());
-        topRightPanel.add(buttonCartView);
-
         buttonLogOut = new JButton("Log Out");
         buttonLogOut.setPreferredSize(new Dimension(200, 25));
         buttonLogOut.setVisible(true);
         buttonLogOut.addActionListener(new onClickLogOutOfSellerView());
         topRightPanel.add(buttonLogOut);
 
+        buttonAddNewProd = new JButton("Add New Product");
+        buttonAddNewProd.setPreferredSize(new Dimension(200, 25));
+        buttonAddNewProd.setVisible(true);
+        buttonAddNewProd.addActionListener(new onClickOpenWindowToCreateNewProduct());
+        bottomPanel.add(buttonAddNewProd);
         getContentPane().add(panel);
     }
 
@@ -128,14 +130,47 @@ public class SellerView extends JFrame {
      *
      * @description calls
      */
-    private class onClickAddProductToInventory implements ActionListener {
+    private class onClickAddUpdateproduct implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            pName = new JTextField();
+            pDescription = new JTextField();
+            pQuantity = new JTextField();
+            pCost = new JTextField();
+            pPrice = new JTextField();
 
-            //if addition to inventory is successful or not, show message accordingly
-            JOptionPane.showMessageDialog(rootPane, "Addition to inventory Successful!");
-            JOptionPane.showMessageDialog(rootPane, "Addition to inventory NOT Successful!");
+            pName.setPreferredSize(new Dimension(100, 25));
+            pDescription.setPreferredSize(new Dimension(100, 25));
+            pQuantity.setPreferredSize(new Dimension(100, 25));
+            pCost.setPreferredSize(new Dimension(100, 25));
+            pPrice.setPreferredSize(new Dimension(100, 25));
+
+            JPanel mainPanel = new JPanel(new BorderLayout(5, 5));
+
+            JPanel labelsPanel = new JPanel(new GridLayout(0, 1, 2, 2));
+            labelsPanel.add(new JLabel("Please Update Product name: ", SwingConstants.RIGHT));
+            labelsPanel.add(new JLabel("Please Update Product Description:", SwingConstants.RIGHT));
+            labelsPanel.add(new JLabel("Please Update Product Quantity:", SwingConstants.RIGHT));
+            labelsPanel.add(new JLabel("Please Update Product Cost:", SwingConstants.RIGHT));
+            labelsPanel.add(new JLabel("Please Update Product Price:", SwingConstants.RIGHT));
+            mainPanel.add(labelsPanel, BorderLayout.WEST);
+
+            JPanel ProductPanel = new JPanel(new GridLayout(0, 1, 2, 2));
+            ProductPanel.add(pName);
+            ProductPanel.add(pDescription);
+            ProductPanel.add(pQuantity);
+            ProductPanel.add(pCost);
+            ProductPanel.add(pPrice);
+            mainPanel.add(ProductPanel, BorderLayout.CENTER);
+
+            int result = JOptionPane.showConfirmDialog(null, mainPanel,
+                    "Update Product Details", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+
+                //add code here to update 
+            }
+
         }
     }
 
@@ -148,7 +183,7 @@ public class SellerView extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
- 
+
             loggedIn = false;
             SystemView systemView = new SystemView();
             systemView.showSystemView(loggedIn);
@@ -157,16 +192,51 @@ public class SellerView extends JFrame {
     }
 
     /**
-     * onClickNavigateToInventoryCartView
+     * onClickOpenWindowToCreateNewProduct
      *
      * @description calls
      */
-    private class onClickNavigateToInventoryCartView implements ActionListener {
+    private class onClickOpenWindowToCreateNewProduct implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            pName = new JTextField();
+            pDescription = new JTextField();
+            pQuantity = new JTextField();
+            pCost = new JTextField();
+            pPrice = new JTextField();
 
+            pName.setPreferredSize(new Dimension(100, 25));
+            pDescription.setPreferredSize(new Dimension(100, 25));
+            pQuantity.setPreferredSize(new Dimension(100, 25));
+            pCost.setPreferredSize(new Dimension(100, 25));
+            pPrice.setPreferredSize(new Dimension(100, 25));
+
+            JPanel mainPanel = new JPanel(new BorderLayout(5, 5));
+
+            JPanel labelsPanel = new JPanel(new GridLayout(0, 1, 2, 2));
+            labelsPanel.add(new JLabel("Please Enter new Product name: ", SwingConstants.RIGHT));
+            labelsPanel.add(new JLabel("Please Enter Product Description:", SwingConstants.RIGHT));
+            labelsPanel.add(new JLabel("Please Enter Product Quantity:", SwingConstants.RIGHT));
+            labelsPanel.add(new JLabel("Please Enter Product Cost:", SwingConstants.RIGHT));
+            labelsPanel.add(new JLabel("Please Enter Product Price:", SwingConstants.RIGHT));
+            mainPanel.add(labelsPanel, BorderLayout.WEST);
+
+            JPanel newProductPanel = new JPanel(new GridLayout(0, 1, 2, 2));
+            newProductPanel.add(pName);
+            newProductPanel.add(pDescription);
+            newProductPanel.add(pQuantity);
+            newProductPanel.add(pCost);
+            newProductPanel.add(pPrice);
+            mainPanel.add(newProductPanel, BorderLayout.CENTER);
+
+            int result = JOptionPane.showConfirmDialog(null, mainPanel,
+                    "Please Enter Product Details", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+
+                inventory.addNewProduct(pName.getText(), Double.parseDouble(pCost.getText()), Double.parseDouble(pPrice.getText()), pDescription.getText(), Integer.parseInt(pQuantity.getText()));
+            productDtlsTextField.setText(pDescription.getText());
+            }
         }
     }
-
 }

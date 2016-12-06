@@ -57,7 +57,7 @@ public class SystemView extends JFrame {
             buttonCreateUser.setVisible(false);
             buttonCartView.setVisible(true);
             buttonLogOut.setVisible(true);
-            loggedUser.setText("Logged in as, " + userLoggedIn);
+            loggedUser.setText("Logged in as " + userLoggedIn);
             loggedInFlag = true;
             loggedUser.setVisible(true);
             setVisible(true);
