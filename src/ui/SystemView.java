@@ -13,10 +13,10 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
  */
 public class SystemView extends JFrame {
 
-    private JButton buttonLogin, buttonCreateUser, buttonAddToCart, buttonCartView, buttonLogOut, buttonRemoveProd;
+    private JButton buttonLogin, buttonCreateUser, buttonAddToCart, buttonCartView, buttonLogOut;
     private JLabel productNameLabel, loggedUser;
     private JTextField productDtlsTextField;
-    boolean loggedInFlag;
+    private boolean loggedInFlag;
     private String userLoggedIn;
 
     public SystemView() {
@@ -112,7 +112,7 @@ public class SystemView extends JFrame {
             //add product details  text field
             productDtlsTextField = new JTextField();
             productDtlsTextField.setPreferredSize(new Dimension(350, 25));
-            productDtlsTextField.setText("here goes some product details");
+            productDtlsTextField.setText("");
             centerPanel.add(productDtlsTextField);
 
             buttonAddToCart = new JButton("Add to Cart");
