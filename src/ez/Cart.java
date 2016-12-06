@@ -7,12 +7,13 @@ package ez;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author Spinal
  */
-public class Cart implements Serializable
+public class Cart implements Iterable<CartItem>, Serializable
 {
     /**Constructor for class Cart
      * Will instantiate the state of one object only for that class
@@ -22,7 +23,7 @@ public class Cart implements Serializable
         this.cartCount = 0;
         this.totalCost = 0;
         itm = null;
-        cartItems = new ArrayList();
+        shoppingCart = new ArrayList();
     }
     
     /**Returns the only instance of the Cart class
@@ -30,7 +31,42 @@ public class Cart implements Serializable
      */
     public static Cart getInstance()
     {
-        return shoppingCart;
+        return cart;
+    }
+    
+        @Override
+    public Iterator<CartItem> iterator()
+    {
+        return shoppingCart.iterator();
+    }
+    
+    public Iterator<CartItem> getInventoryItem()
+    {
+        return new
+            Iterator<CartItem>()
+            {
+                @Override
+                public boolean hasNext()
+                {
+                    return current < shoppingCart.size();
+                }
+                
+                @Override
+                public CartItem next()
+                {
+                    CartItem pd = shoppingCart.get(current);
+                    current++;
+                    return pd;
+                }
+                
+                @Override
+                public void remove()
+                {
+                    throw new UnsupportedOperationException();
+                }
+                
+                private int current = 0;
+            };
     }
     
     /**Returns the total cost of all items in cart
@@ -52,7 +88,7 @@ public class Cart implements Serializable
         }
         else
         {
-            cartItems.add(new CartItem(p.getName(), p.getUnitCost(), p.getUnitPrice(), p.getDescription()));
+            shoppingCart.add(new CartItem(p.getName(), p.getUnitCost(), p.getUnitPrice(), p.getDescription()));
         }
     }
     
@@ -61,7 +97,7 @@ public class Cart implements Serializable
      */
     public void removeFromCart(CartItem itm)
     {
-        cartItems.remove(itm);
+        shoppingCart.remove(itm);
     }
     
     /**Checks to see if an inventory item is already in the customer's cart
@@ -70,7 +106,7 @@ public class Cart implements Serializable
      */
     private boolean isItemInCart( InventoryItem p )
     {
-        for( CartItem ci : cartItems )
+        for( CartItem ci : shoppingCart )
         {
             if(p.getName().equals(ci.getName()))
             {
@@ -86,7 +122,7 @@ public class Cart implements Serializable
      */
     public int getCount()
     {
-        cartCount = cartItems.size();
+        cartCount = shoppingCart.size();
         return cartCount;
     }    
         
@@ -95,7 +131,7 @@ public class Cart implements Serializable
      */
     public void calculateTotal()
     {
-        for( CartItem ci : cartItems )
+        for( CartItem ci : shoppingCart )
         {
             totalCost = ci.getQuantity() * ci.getUnitPrice();
         }
@@ -106,13 +142,13 @@ public class Cart implements Serializable
     public void clearShoppingCart()
     {
         //Check this method
-        cartItems.clear();
+        shoppingCart.clear();
     }
     
     private CartItem itm;
     private double totalCost;
     private int cartCount;
-    private ArrayList<CartItem> cartItems;
-    private static Cart shoppingCart = new Cart();
+    private ArrayList<CartItem> shoppingCart;
+    private static Cart cart = new Cart();
     private static final long serialVersionID = 4L;
 }
