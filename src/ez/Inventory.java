@@ -37,11 +37,11 @@ public class Inventory implements Iterable<InventoryItem>, Serializable
     }
     
     /**Remove a product from the inventory
-     * @param prodName name of product to be removed from the inventory
+     * @param prod name of product to be removed from the inventory
      */
-    public void removeProduct( String prodName )
+    public void removeProduct( InventoryItem prod )
     {
-        //IMPLEMENT THIS METHOND
+        inventory.remove(prod);
     }
     
    
