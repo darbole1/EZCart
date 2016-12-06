@@ -48,6 +48,15 @@ public class Inventory implements Iterable<InventoryItem>
         inventory.remove(prod);
     }
     
+    public void updateProduct(InventoryItem itm, String prodName, double prodCost, double prodPrice, String prodDesc, int qty)
+    {
+        if( !(prodName.isEmpty()))
+        {
+           itm.updateProduct(prodName, prodPrice, prodCost, prodDesc);
+           itm.updateQuantity(qty);
+        }
+    }
+    
    
     @Override
     public Iterator<InventoryItem> iterator()

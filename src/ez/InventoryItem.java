@@ -31,8 +31,7 @@ public class InventoryItem extends Product implements Serializable
     {
         this.quantity = qty;
     }
-   
-    
+       
     private int quantity;
     private static final long serialVersionID = 2L;
 }

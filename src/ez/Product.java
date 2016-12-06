@@ -54,6 +54,13 @@ public class Product
         return description;
     }
     
+    public void updateProduct( String prodName, double price, double cost, String desc )
+    {
+        name = prodName;
+        unitPrice = price;
+        unitCost = cost;
+        description = desc;
+    }       
        
     private String name;
     //private int quantity;
