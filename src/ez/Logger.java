@@ -14,8 +14,9 @@ public class Logger
     {
         //List that will hold all of the accounts in the system
         accounts = new ArrayList<>();
-        //ADD File name there
-        fileName = "";
+        fileName = "Source Packages/ez/accounts.ser";
+        Serializer sr = new Serializer();
+        sr.deSerializeAccounts(fileName);        
     }
     
     /**Returns the only instance of the Logger class

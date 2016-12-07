@@ -2,6 +2,7 @@ package ui;
 
 import ez.Inventory;
 import ez.InventoryItem;
+import ez.InventoryListener;
 import ez.Logger;
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -30,7 +31,10 @@ public class SellerView extends JFrame {
     Inventory inventory = Inventory.getInstance();
 
     public SellerView() {
-
+        InventoryListener iL = new InventoryListener(this);
+        
+        inventory.addListener(iL);
+        
         createSellerView();
         setTitle("The Seller EZ Shopping cart");
         setDefaultCloseOperation(EXIT_ON_CLOSE);

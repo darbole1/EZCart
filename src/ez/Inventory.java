@@ -17,7 +17,10 @@ public class Inventory implements Iterable<InventoryItem>
         cost = 0;
         revenue = 0;
         inventory = new ArrayList();
-        fileName = "";
+        fileName = "Source Packages/ez/inventory.ser";
+        invList = new ArrayList();
+        Serializer sr = new Serializer();
+        sr.deSerializeInventory(fileName);  
     }
     
     /**Method that will return the only instance of that class
@@ -38,6 +41,8 @@ public class Inventory implements Iterable<InventoryItem>
     public void addNewProduct(String prodName, double cost, double price, String desc, int qty)
     {        
         inventory.add( new InventoryItem(prodName, cost, price, desc, qty));
+        //create state change event
+        //
     }
     
     /**Remove a product from the inventory
@@ -140,6 +145,11 @@ public class Inventory implements Iterable<InventoryItem>
         return profit;
     }
     
+//    public void addListener( InventoryListener list )
+//    {
+//        invList.add(list);
+//    }
+    
     private static Inventory invt = new Inventory();
     private static ArrayList<InventoryItem> inventory;
     private double profit; //Total profit on the whole inventory
@@ -147,4 +157,10 @@ public class Inventory implements Iterable<InventoryItem>
     private double revenue; //Total revenue on the whole inventory 
     //private static final long serialVersionID = 2L;
     final private String fileName;
+    private ArrayList<InventoryListener> invList;
+
+    public void addListener(InventoryListener iL) {
+       invList.add(iL);
+    }
+    
 }
