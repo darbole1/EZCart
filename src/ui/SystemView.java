@@ -1,10 +1,14 @@
 package ui;
 
+import ez.Cart;
+import ez.Inventory;
+import ez.InventoryItem;
 import ez.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 /**
@@ -14,10 +18,12 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
 public class SystemView extends JFrame {
 
     private JButton buttonLogin, buttonCreateUser, buttonAddToCart, buttonCartView, buttonLogOut;
-    private JLabel productNameLabel, loggedUser;
+    private JLabel productNameLabel, loggedUser, productDtlsLabel, productPriceLabel;
     private JTextField productDtlsTextField;
     private boolean loggedInFlag;
     private String userLoggedIn;
+    Inventory inventory = Inventory.getInstance();
+    Cart cart = Cart.getInstance();
 
     public SystemView() {
 
@@ -102,25 +108,23 @@ public class SystemView extends JFrame {
         panel.add(centerPanel, BorderLayout.CENTER);
         getContentPane().add(panel);
 
-        for (int x = 0; x < 5; x++) {
+        //add product name label HEADER
+        productNameLabel = new JLabel("product Name: ");
+        productNameLabel.setPreferredSize(new Dimension(200, 25));
+        centerPanel.add(productNameLabel);
 
-            //add product name label
-            productNameLabel = new JLabel("product Name:");
-            productNameLabel.setPreferredSize(new Dimension(200, 25));
-            centerPanel.add(productNameLabel);
+        //add product details label HEADER
+        productDtlsLabel = new JLabel("Description: ");
+        productDtlsLabel.setPreferredSize(new Dimension(250, 25));
+        centerPanel.add(productDtlsLabel);
 
-            //add product details  text field
-            productDtlsTextField = new JTextField();
-            productDtlsTextField.setPreferredSize(new Dimension(350, 25));
-            productDtlsTextField.setText("");
-            centerPanel.add(productDtlsTextField);
+        //add product price label
+        productPriceLabel = new JLabel("Price: ");
+        productPriceLabel.setPreferredSize(new Dimension(250, 25));
+        centerPanel.add(productPriceLabel);
 
-            buttonAddToCart = new JButton("Add to Cart");
-            buttonAddToCart.setPreferredSize(new Dimension(200, 25));
-            buttonAddToCart.addActionListener(new onClickAddProductToCart());
-            centerPanel.add(buttonAddToCart);
-
-        }
+        Iterator<InventoryItem> itm = inventory.getInventoryItem();
+        updateProductsView(itm, centerPanel);
 
         buttonLogin = new JButton("Login");
         buttonLogin.setPreferredSize(new Dimension(200, 25));
@@ -193,19 +197,24 @@ public class SystemView extends JFrame {
      * shows a message to the user weather the addition was successful or not
      */
     private class onClickAddProductToCart implements ActionListener {
-
+        Iterator<InventoryItem> cartItem = inventory.getInventoryItem();
+        
+        public onClickAddProductToCart(Iterator<InventoryItem> cartItem){
+            this.cartItem = cartItem;
+        }
+        
         @Override
         public void actionPerformed(ActionEvent e) {
 
             if (loggedInFlag) {
+                
+                cart.addToCart(cartItem.next());
+                
                 //if addition to cart is successful or not, show message accordingly
                 JOptionPane.showMessageDialog(rootPane, "Addition to Cart Successful!");
-                JOptionPane.showMessageDialog(rootPane, "Addition to Cart NOT Successful!");
             } else {
                 JOptionPane.showMessageDialog(null, "Please Login to continue with your purchase.", "Login Required", YES_NO_OPTION);
             }
-
-          
 
 //            createUserView userView = new createUserView();
 //            userView.showNewUserView();
@@ -231,7 +240,8 @@ public class SystemView extends JFrame {
     /**
      * onClickLogOut
      *
-     * @description creates
+     * @description changes the state between true and false of those labels or
+     * info that a user should/should not see
      */
     private class onClickLogOut implements ActionListener {
 
@@ -243,6 +253,40 @@ public class SystemView extends JFrame {
             buttonCartView.setVisible(false);
             buttonLogOut.setVisible(false);
             loggedUser.setVisible(false);
+        }
+    }
+
+    /**
+     * updateProductsView
+     *
+     * @description changes the state between true and false of those labels or
+     * info that a user should/should not see
+     * @params itm - the inventory item objects
+     * @params centerPanl - the panel where the elements will be placed
+     */
+    public void updateProductsView(Iterator<InventoryItem> itm, JPanel centerPanel) {
+        while (itm.hasNext()) {
+
+            InventoryItem item = itm.next();
+            //add product name label
+            productNameLabel = new JLabel(item.getName());
+            productNameLabel.setPreferredSize(new Dimension(200, 25));
+            centerPanel.add(productNameLabel);
+
+            //add product details  label
+            productDtlsLabel = new JLabel(item.getDescription());
+            productDtlsLabel.setPreferredSize(new Dimension(200, 25));
+            centerPanel.add(productDtlsLabel);
+
+            //add product price label
+            productPriceLabel = new JLabel("" + item.getUnitPrice());
+            productPriceLabel.setPreferredSize(new Dimension(100, 25));
+            centerPanel.add(productPriceLabel);
+
+            buttonAddToCart = new JButton("Add to Cart");
+            buttonAddToCart.setPreferredSize(new Dimension(200, 25));
+            buttonAddToCart.addActionListener(new onClickAddProductToCart(itm));
+            centerPanel.add(buttonAddToCart);
         }
     }
 

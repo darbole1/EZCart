@@ -2,10 +2,10 @@ package ui;
 
 import ez.Inventory;
 import ez.InventoryItem;
+import ez.Logger;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import javax.swing.*;
-import ez.Logger;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +19,7 @@ public class SellerView extends JFrame {
 
     private JButton buttonUpdateCart, buttonLogOut, buttonRemoveProd, buttonAddNewProd;
     private JButton buttonCalcCost, buttonCalcProfit, buttonCalcRevenue;
+    private JPanel centerPanel;
     private JLabel productNameLabel, loggedUser, productDtlsLabel, productCostLabel, productPriceLabel, productQuantityLabel;
     private JTextField productDtlsTextField, pName, pDescription, pQuantity, pCost, pPrice;
     private boolean loggedIn;
@@ -72,81 +73,38 @@ public class SellerView extends JFrame {
         JPanel bottomPanel = new JPanel(new BorderLayout());
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
-        JPanel centerPanel = new JPanel();
+        centerPanel = new JPanel();
         panel.add(centerPanel, BorderLayout.CENTER);
         getContentPane().add(panel);
 
-        //////////////// HEADER LABELS
-        
-         //add product label Headers
-            productNameLabel = new JLabel("Name: ");
-            productNameLabel.setPreferredSize(new Dimension(150, 25));
-            topPanel.add(productNameLabel, BorderLayout.SOUTH);
+        //-------- HEADER LABELS
+        //add product label Headers
+        productNameLabel = new JLabel("Name: ");
+        productNameLabel.setPreferredSize(new Dimension(150, 25));
+        centerPanel.add(productNameLabel);
 
-            //add product details  label
-            productDtlsLabel = new JLabel("Description: ");
-            productDtlsLabel.setPreferredSize(new Dimension(150, 25));
-            topPanel.add(productDtlsLabel, BorderLayout.SOUTH);
-            
-             //add product cost label
-            productCostLabel = new JLabel("Cost: ");
-            productCostLabel.setPreferredSize(new Dimension(100, 25));
-            topPanel.add(productCostLabel, BorderLayout.SOUTH);
-            
-              //add product price label
-            productPriceLabel = new JLabel("Price: ");
-            productPriceLabel.setPreferredSize(new Dimension(100, 25));
-            topPanel.add(productPriceLabel, BorderLayout.SOUTH);
-            
-              //add product quantity label
-            productQuantityLabel = new JLabel("Quantity: ");
-            productQuantityLabel.setPreferredSize(new Dimension(100, 25));
-            topPanel.add(productQuantityLabel, BorderLayout.SOUTH);
+        //add product details  label
+        productDtlsLabel = new JLabel("Description: ");
+        productDtlsLabel.setPreferredSize(new Dimension(150, 25));
+        centerPanel.add(productDtlsLabel);
 
-                 
-        
-        /////////////////
-       Iterator<InventoryItem> itm = inventory.getInventoryItem();        
-       
-            while(itm.hasNext()) {
-        
-            InventoryItem item = itm.next();
-            //add product name label
-            productNameLabel = new JLabel("Name: " + item.getName());
-            productNameLabel.setPreferredSize(new Dimension(150, 25));
-            centerPanel.add(productNameLabel);
+        //add product cost label
+        productCostLabel = new JLabel("Cost: ");
+        productCostLabel.setPreferredSize(new Dimension(100, 25));
+        centerPanel.add(productCostLabel);
 
-            //add product details  label
-            productDtlsLabel = new JLabel("Description: " + item.getDescription());
-            productDtlsLabel.setPreferredSize(new Dimension(150, 25));
-            centerPanel.add(productDtlsLabel);
-            
-             //add product cost label
-            productCostLabel = new JLabel("Cost: " + item.getUnitCost());
-            productCostLabel.setPreferredSize(new Dimension(100, 25));
-            centerPanel.add(productCostLabel);
-            
-              //add product price label
-            productPriceLabel = new JLabel("Price: " + item.getUnitPrice());
-            productPriceLabel.setPreferredSize(new Dimension(100, 25));
-            centerPanel.add(productPriceLabel);
-            
-              //add product quantity label
-            productQuantityLabel = new JLabel("Quantity: " + item.getQuantity());
-            productQuantityLabel.setPreferredSize(new Dimension(100, 25));
-            centerPanel.add(productQuantityLabel);
+        //add product price label
+        productPriceLabel = new JLabel("Price: ");
+        productPriceLabel.setPreferredSize(new Dimension(100, 25));
+        centerPanel.add(productPriceLabel);
 
-            buttonUpdateCart = new JButton("Update");
-            buttonUpdateCart.setPreferredSize(new Dimension(100, 25));
-            buttonUpdateCart.addActionListener(new onClickOpenUpdateProductWindow());
-            centerPanel.add(buttonUpdateCart);
+        //add product quantity label
+        productQuantityLabel = new JLabel("Quantity: ");
+        productQuantityLabel.setPreferredSize(new Dimension(300, 25));
+        centerPanel.add(productQuantityLabel);
 
-            buttonRemoveProd = new JButton("Remove");
-            buttonRemoveProd.setPreferredSize(new Dimension(100, 25));
-            buttonRemoveProd.setVisible(true);
-            //  buttonRemoveProd.addActionListener(new onClickRemoveProdFromInventory());
-            centerPanel.add(buttonRemoveProd);
-        }
+        Iterator<InventoryItem> itm = inventory.getInventoryItem();
+        updateInventoryView(itm, centerPanel);
 
         //label for logged user
         loggedUser = new JLabel();
@@ -162,29 +120,25 @@ public class SellerView extends JFrame {
 
         buttonAddNewProd = new JButton("Add New Product");
         buttonAddNewProd.setPreferredSize(new Dimension(200, 25));
-        buttonAddNewProd.setVisible(true);
         buttonAddNewProd.addActionListener(new onClickOpenCreateNewProduct());
         bottomPanel.add(buttonAddNewProd, BorderLayout.NORTH);
 
         //button to calculate revenue
         buttonCalcRevenue = new JButton("Calculate Revenue");
         buttonCalcRevenue.setPreferredSize(new Dimension(200, 25));
-        buttonCalcRevenue.setVisible(true);
-        buttonAddNewProd.addActionListener(new onClickCalculateRevenue());
+        buttonCalcRevenue.addActionListener(new onClickCalculateRevenue());
         bottomPanel.add(buttonCalcRevenue, BorderLayout.EAST);
 
         //button to calculate cost
         buttonCalcCost = new JButton("Calculate Cost");
         buttonCalcCost.setPreferredSize(new Dimension(200, 25));
-        buttonCalcCost.setVisible(true);
-        buttonAddNewProd.addActionListener(new onClickCalculateCost());
+        buttonCalcCost.addActionListener(new onClickCalculateCost());
         bottomPanel.add(buttonCalcCost, BorderLayout.CENTER);
 
         //button to calculate profit
         buttonCalcProfit = new JButton("Calculate Profit");
         buttonCalcProfit.setPreferredSize(new Dimension(200, 25));
-        buttonCalcProfit.setVisible(true);
-        buttonAddNewProd.addActionListener(new onClickCalculateProfit());
+        buttonCalcProfit.addActionListener(new onClickCalculateProfit());
         bottomPanel.add(buttonCalcProfit, BorderLayout.WEST);
 
         getContentPane().add(panel);
@@ -198,54 +152,19 @@ public class SellerView extends JFrame {
      */
     private class onClickOpenUpdateProductWindow implements ActionListener {
 
+        Iterator<InventoryItem> itm = inventory.getInventoryItem();
+
+        public onClickOpenUpdateProductWindow(Iterator<InventoryItem> itm) {
+            this.itm = itm;
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
-
             int result = createProductPopUp("Update Product Details");
-
             if (result == JOptionPane.OK_OPTION) {
+                inventory.updateProduct(itm.next(), pName.getText(), Double.parseDouble(pCost.getText()), Double.parseDouble(pPrice.getText()), pDescription.getText(), Integer.parseInt(pQuantity.getText()));
 
-                //add code here to update 
             }
-        }
-    }
-
-    /**
-     * onClickCalculateProfit
-     *
-     * @description O
-     */
-    private class onClickCalculateProfit implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    }
-
-    /**
-     * onClickCalculateCost
-     *
-     * @description Opens
-     */
-    private class onClickCalculateCost implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    }
-
-    /**
-     * onClickCalculateRevenue
-     *
-     * @description Opens
-     */
-    private class onClickCalculateRevenue implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
         }
     }
 
@@ -277,7 +196,12 @@ public class SellerView extends JFrame {
      */
     public int createProductPopUp(String popUpTitle) {
 
-        pName = new JTextField();
+        pName = new JTextField() {
+            public void addNotify() {
+                super.addNotify();
+                requestFocus();
+            }
+        };
         pDescription = new JTextField();
         pQuantity = new JTextField();
         pCost = new JTextField();
@@ -313,7 +237,7 @@ public class SellerView extends JFrame {
     }
 
     /**
-     * onClickOpenWindowToCreateNewProduct
+     * onClickOpenCreateNewProduct
      *
      * @description calls
      */
@@ -324,11 +248,109 @@ public class SellerView extends JFrame {
             int result = createProductPopUp("Enter Product Details");
 
             if (result == JOptionPane.OK_OPTION) {
-
                 inventory.addNewProduct(pName.getText(), Double.parseDouble(pCost.getText()), Double.parseDouble(pPrice.getText()), pDescription.getText(), Integer.parseInt(pQuantity.getText()));
-             
-                
+
             }
+        }
+    }
+
+    /**
+     * onClickCalculateProfit
+     *
+     * @description calls the function which calculates the profit
+     */
+    private class onClickCalculateProfit implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(null, "Your Profit is $" + inventory.getProfit());
+        }
+    }
+
+    /**
+     * onClickCalculateCost
+     *
+     * @description calls the function which calculates the cost
+     */
+    private class onClickCalculateCost implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(null, "Your Cost is $" + inventory.getCost());
+        }
+    }
+
+    /**
+     * onClickCalculateRevenue
+     *
+     * @description calls the function which calculates the revenue
+     */
+    private class onClickCalculateRevenue implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(null, "Your Revenue is $" + inventory.getRevenue());
+        }
+    }
+
+    /**
+     * onClickRemoveProdFromInventory
+     *
+     * @description calls
+     */
+    private class onClickRemoveProdFromInventory implements ActionListener {
+
+        Iterator<InventoryItem> itm = inventory.getInventoryItem();
+
+        public onClickRemoveProdFromInventory(Iterator<InventoryItem> itm) {
+            this.itm = itm;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            inventory.removeProduct(itm.next());
+        }
+    }
+
+    public void updateInventoryView(Iterator<InventoryItem> itm, JPanel centerPanel) {
+        while (itm.hasNext()) {
+
+            InventoryItem item = itm.next();
+            //add product name label
+            productNameLabel = new JLabel(item.getName());
+            productNameLabel.setPreferredSize(new Dimension(150, 25));
+            centerPanel.add(productNameLabel);
+
+            //add product details  label
+            productDtlsLabel = new JLabel(item.getDescription());
+            productDtlsLabel.setPreferredSize(new Dimension(150, 25));
+            centerPanel.add(productDtlsLabel);
+
+            //add product cost label
+            productCostLabel = new JLabel(Double.toString(item.getUnitCost()));
+            productCostLabel.setPreferredSize(new Dimension(100, 25));
+            centerPanel.add(productCostLabel);
+
+            //add product price label
+            productPriceLabel = new JLabel(Double.toString(item.getUnitPrice()));
+            productPriceLabel.setPreferredSize(new Dimension(100, 25));
+            centerPanel.add(productPriceLabel);
+
+            //add product quantity label
+            productQuantityLabel = new JLabel(Integer.toString(item.getQuantity()));
+            productQuantityLabel.setPreferredSize(new Dimension(100, 25));
+            centerPanel.add(productQuantityLabel);
+
+            buttonUpdateCart = new JButton("Update");
+            buttonUpdateCart.setPreferredSize(new Dimension(100, 25));
+            buttonUpdateCart.addActionListener(new onClickOpenUpdateProductWindow(itm));
+            centerPanel.add(buttonUpdateCart);
+
+            buttonRemoveProd = new JButton("Remove");
+            buttonRemoveProd.setPreferredSize(new Dimension(100, 25));
+            buttonRemoveProd.setVisible(true);
+            buttonRemoveProd.addActionListener(new onClickRemoveProdFromInventory(itm));
+            centerPanel.add(buttonRemoveProd);
         }
     }
 }

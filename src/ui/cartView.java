@@ -5,6 +5,7 @@
  */
 package ui;
 
+import ez.Cart;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -21,16 +22,16 @@ public class cartView extends JFrame {
     private JButton buttonClearCart, buttonRemoveItem, buttonCheckout, buttonContShopping;
     private JLabel productNameLabel, quantityLabel, pricePunitLabel, pricePitemLabel, totalLabel, taxLabel, shippingPriceLabel;
     private JComboBox quantityBox;
-    private double tax = 3.00;
-    private double shippingPrice = 5.00;
-    private boolean loggedIn;
-private String userLoggedIn;
+    private double tax = 3.00, shippingPrice = 5.00;
+    private boolean loggedIn;    
+    private String userLoggedIn;
+    Cart cart = Cart.getInstance();
 
     public cartView() {
         //createShoppingCartView builds the shopping cart view
         createShoppingCartView();
 
-        setTitle("Register a New User");
+        setTitle("Customer Cart View");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(900, 600);
         setLocationRelativeTo(null);
@@ -98,6 +99,7 @@ private String userLoggedIn;
 
         //***************************
         //populate here the UI with the products
+        addProductToCartView();
         //***************************
         //add tax  label 
         taxLabel = new JLabel("Tax: $" + Double.toString(tax));
@@ -110,7 +112,7 @@ private String userLoggedIn;
         centerPanel.add(shippingPriceLabel);
 
         //add total price  label
-        totalLabel = new JLabel("Total: $" + (Double.toString(tax + shippingPrice)));
+        totalLabel = new JLabel("Total: $" + (Double.toString(tax + shippingPrice )) );
         totalLabel.setPreferredSize(new Dimension(200, 25));
         centerPanel.add(totalLabel);
 
@@ -123,6 +125,7 @@ private String userLoggedIn;
         //add clear cart button to view
         buttonClearCart = new JButton("Clear Cart");
         buttonClearCart.setPreferredSize(new Dimension(200, 25));
+        buttonClearCart.addActionListener(new onClickClearCart());
         bottomPanel.add(buttonClearCart);
 
         //add checkout button to view
@@ -147,5 +150,27 @@ private String userLoggedIn;
             loggedIn = true;
             systemView.showSystemViewAfterLogin(loggedIn, userLoggedIn);
         }
+    }
+    
+     /**
+     * onClickClearCart
+     *
+     * @description create
+     */
+    private class onClickClearCart implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           cart.clearShoppingCart();
+        }
+    }
+    
+       /**
+     * addProductToCartView
+     *
+     * @description This function will create the labels, buttons required for the cart view
+     */
+    public void addProductToCartView(){
+        
     }
 }
