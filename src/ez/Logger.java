@@ -5,16 +5,17 @@
  */
 package ez;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Logger implements Serializable
+public class Logger 
 {
     /**Definition of the Logger Constructor*/
     private Logger() 
     {
         //List that will hold all of the accounts in the system
         accounts = new ArrayList<>();
+        //ADD File name there
+        fileName = "";
     }
     
     /**Returns the only instance of the Logger class
@@ -204,4 +205,5 @@ public class Logger implements Serializable
     private static Logger logEn = new Logger();
     private ArrayList<Account> accounts;
     final private int PWDLEN = 8;
+    final private String fileName;
 }

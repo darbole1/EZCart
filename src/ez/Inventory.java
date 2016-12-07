@@ -5,7 +5,6 @@
  */
 package ez;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -18,6 +17,7 @@ public class Inventory implements Iterable<InventoryItem>
         cost = 0;
         revenue = 0;
         inventory = new ArrayList();
+        fileName = "";
     }
     
     /**Method that will return the only instance of that class
@@ -146,4 +146,5 @@ public class Inventory implements Iterable<InventoryItem>
     private double cost; //Total cost for the whole inventory
     private double revenue; //Total revenue on the whole inventory 
     //private static final long serialVersionID = 2L;
+    final private String fileName;
 }
