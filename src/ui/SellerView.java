@@ -4,12 +4,14 @@ import ez.Inventory;
 import ez.InventoryItem;
 import ez.InventoryListener;
 import ez.Logger;
+import ez.Serializer;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Iterator;
 
 /**
@@ -22,19 +24,17 @@ public class SellerView extends JFrame {
     private JButton buttonCalcCost, buttonCalcProfit, buttonCalcRevenue;
     private JPanel centerPanel;
     private JLabel productNameLabel, loggedUser, productDtlsLabel, productCostLabel, productPriceLabel, productQuantityLabel;
-    private JTextField productDtlsTextField, pName, pDescription, pQuantity, pCost, pPrice;
+    private JTextField pName, pDescription, pQuantity, pCost, pPrice;
     private boolean loggedIn;
     private String userLoggedIn;
-    private int actType;
     SystemView sellerView = new SystemView();
     Logger log = Logger.getInstance();
     Inventory inventory = Inventory.getInstance();
 
     public SellerView() {
         InventoryListener iL = new InventoryListener(this);
-        
         inventory.addListener(iL);
-        
+
         createSellerView();
         setTitle("The Seller EZ Shopping cart");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -44,7 +44,11 @@ public class SellerView extends JFrame {
     }
 
     /**
-     * The showSellerView method is used to set the SellerView JFrame visible
+     * showSellerView
+     *
+     * @description this method is used to set the SellerView JFrame visible
+     * @param userName - holds the username of the user that is currently logged
+     * in
      */
     public void showSellerView(String userName) {
         userLoggedIn = userName;
@@ -53,8 +57,9 @@ public class SellerView extends JFrame {
     }
 
     /**
-     * The hideSellerView method is used to set the SellerView JFrame NOT
-     * visible
+     * hideSellerView
+     *
+     * @description this method is used to set the SellerView JFrame NOT visible
      */
     public void hideSellerView() {
         setVisible(false);
@@ -116,30 +121,32 @@ public class SellerView extends JFrame {
         loggedUser.setVisible(true);
         topRightPanel.add(loggedUser);
 
+        //add the log out button
         buttonLogOut = new JButton("Log Out");
         buttonLogOut.setPreferredSize(new Dimension(200, 25));
         buttonLogOut.setVisible(true);
         buttonLogOut.addActionListener(new onClickLogOutOfSellerView());
         topRightPanel.add(buttonLogOut);
 
+        //add the Add new product button
         buttonAddNewProd = new JButton("Add New Product");
         buttonAddNewProd.setPreferredSize(new Dimension(200, 25));
         buttonAddNewProd.addActionListener(new onClickOpenCreateNewProduct());
         bottomPanel.add(buttonAddNewProd, BorderLayout.NORTH);
 
-        //button to calculate revenue
+        //add the button to calculate revenue
         buttonCalcRevenue = new JButton("Calculate Revenue");
         buttonCalcRevenue.setPreferredSize(new Dimension(200, 25));
         buttonCalcRevenue.addActionListener(new onClickCalculateRevenue());
         bottomPanel.add(buttonCalcRevenue, BorderLayout.EAST);
 
-        //button to calculate cost
+        //add the button to calculate cost
         buttonCalcCost = new JButton("Calculate Cost");
         buttonCalcCost.setPreferredSize(new Dimension(200, 25));
         buttonCalcCost.addActionListener(new onClickCalculateCost());
         bottomPanel.add(buttonCalcCost, BorderLayout.CENTER);
 
-        //button to calculate profit
+        //add the button to calculate profit
         buttonCalcProfit = new JButton("Calculate Profit");
         buttonCalcProfit.setPreferredSize(new Dimension(200, 25));
         buttonCalcProfit.addActionListener(new onClickCalculateProfit());
@@ -151,8 +158,8 @@ public class SellerView extends JFrame {
     /**
      * onClickOpenUpdateProductWindow
      *
-     * @description Opens the pop-up that allows the customer/seller to update
-     * product details
+     * @description Opens the pop-up that allows the seller to update product
+     * details
      */
     private class onClickOpenUpdateProductWindow implements ActionListener {
 
@@ -195,17 +202,12 @@ public class SellerView extends JFrame {
      *
      * @description creates a pop-up window which allows the customer/seller to
      * add, update product details
-     * @params popUpTitle - the title which is assigned to the pop-up window
+     * @param popUpTitle - the title which is assigned to the pop-up window
      * @return userSelection - the choice selected by the customer/seller
      */
     public int createProductPopUp(String popUpTitle) {
 
-        pName = new JTextField() {
-            public void addNotify() {
-                super.addNotify();
-                requestFocus();
-            }
-        };
+        pName = new JTextField();
         pDescription = new JTextField();
         pQuantity = new JTextField();
         pCost = new JTextField();
@@ -243,7 +245,8 @@ public class SellerView extends JFrame {
     /**
      * onClickOpenCreateNewProduct
      *
-     * @description calls
+     * @description shows a pop up asking the seller to enter the required info
+     * to add a new product to the inventory
      */
     private class onClickOpenCreateNewProduct implements ActionListener {
 
@@ -253,7 +256,11 @@ public class SellerView extends JFrame {
 
             if (result == JOptionPane.OK_OPTION) {
                 inventory.addNewProduct(pName.getText(), Double.parseDouble(pCost.getText()), Double.parseDouble(pPrice.getText()), pDescription.getText(), Integer.parseInt(pQuantity.getText()));
-
+                Serializer sz = new Serializer();
+                try {
+                    sz.serializeInventory(inventory.getInventory(), inventory.getFileName());
+                } catch (IOException ex) {
+                }
             }
         }
     }
@@ -300,7 +307,7 @@ public class SellerView extends JFrame {
     /**
      * onClickRemoveProdFromInventory
      *
-     * @description calls
+     * @description remove a product from the inventory
      */
     private class onClickRemoveProdFromInventory implements ActionListener {
 
@@ -316,6 +323,15 @@ public class SellerView extends JFrame {
         }
     }
 
+    /**
+     * updateInventoryView
+     *
+     * @description this method re-builds the inventory view with the products
+     * from the inventory and their properties
+     * @param itm - reference to an inventory item
+     * @param centerPanel - the panel where the inventory products will be
+     * placed
+     */
     public void updateInventoryView(Iterator<InventoryItem> itm, JPanel centerPanel) {
         while (itm.hasNext()) {
 
@@ -345,11 +361,13 @@ public class SellerView extends JFrame {
             productQuantityLabel.setPreferredSize(new Dimension(100, 25));
             centerPanel.add(productQuantityLabel);
 
+            //add button to update cart
             buttonUpdateCart = new JButton("Update");
             buttonUpdateCart.setPreferredSize(new Dimension(100, 25));
             buttonUpdateCart.addActionListener(new onClickOpenUpdateProductWindow(itm));
             centerPanel.add(buttonUpdateCart);
 
+            //add button to remove a product
             buttonRemoveProd = new JButton("Remove");
             buttonRemoveProd.setPreferredSize(new Dimension(100, 25));
             buttonRemoveProd.setVisible(true);

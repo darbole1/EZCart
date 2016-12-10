@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import ez.Logger;
+import ez.Serializer;
+import java.io.IOException;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 /**
@@ -18,13 +20,12 @@ public class createUserView extends JFrame {
     private JLabel firstNameLabel, lastNameLabel, userNameLabel, passwordLabel, accTypeLabel;
     private JTextField firstNameTextField, lastNameTextField, userNameTextField, passwordTextField;
     private JComboBox actTypeList;
-    private int accType = 0; //o is a customer account, 1 is a seller account
+    private int accType = 0;
     private boolean loggedIn;
 
     public createUserView() {
         //createNewUserView builds the create user view
         createNewUserView();
-
         setTitle("Register a New User");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(900, 600);
@@ -33,7 +34,9 @@ public class createUserView extends JFrame {
     }
 
     /**
-     * The showNewUserView method is used to set the Create new user View JFrame
+     * showNewUserView
+     *
+     * @description this method is used to set the Create new user View JFrame
      * visible
      */
     public void showNewUserView() {
@@ -41,7 +44,9 @@ public class createUserView extends JFrame {
     }
 
     /**
-     * The hideNewUserView method is used to set the Create new user View JFrame
+     * hideNewUserView
+     *
+     * @description this method is used to set the Create new user View JFrame
      * NOT visible
      */
     public void hideNewUserView() {
@@ -70,38 +75,42 @@ public class createUserView extends JFrame {
         panel.add(centerPanel, BorderLayout.CENTER);
         getContentPane().add(panel);
 
-        //add first name label & text field
+        //add first name label 
         firstNameLabel = new JLabel("First Name:");
         firstNameLabel.setPreferredSize(new Dimension(200, 25));
         centerPanel.add(firstNameLabel);
 
+        //add the first name text field
         firstNameTextField = new JTextField();
         firstNameTextField.setPreferredSize(new Dimension(500, 25));
         centerPanel.add(firstNameTextField);
 
-        //add last name label & text field
+        //add last name label 
         lastNameLabel = new JLabel("Last Name:");
         lastNameLabel.setPreferredSize(new Dimension(200, 25));
         centerPanel.add(lastNameLabel);
 
+        //add the last name text field
         lastNameTextField = new JTextField();
         lastNameTextField.setPreferredSize(new Dimension(500, 25));
         centerPanel.add(lastNameTextField);
 
-        //add user name label & text field
+        //add user name label 
         userNameLabel = new JLabel("User Name:");
         userNameLabel.setPreferredSize(new Dimension(200, 25));
         centerPanel.add(userNameLabel);
 
+        //add the username text field
         userNameTextField = new JTextField();
         userNameTextField.setPreferredSize(new Dimension(500, 25));
         centerPanel.add(userNameTextField);
 
-        //add password label & text field
+        //add password label 
         passwordLabel = new JLabel("Password:");
         passwordLabel.setPreferredSize(new Dimension(200, 25));
         centerPanel.add(passwordLabel);
 
+        //add the password field for the login page
         passwordTextField = new JTextField();
         passwordTextField.setPreferredSize(new Dimension(500, 25));
         centerPanel.add(passwordTextField);
@@ -111,18 +120,19 @@ public class createUserView extends JFrame {
         accTypeLabel.setPreferredSize(new Dimension(200, 25));
         centerPanel.add(accTypeLabel);
 
+        //add the dropdown to select a customer or seller
         String[] accountStrings = {"Customer", "Seller"};
         actTypeList = new JComboBox(accountStrings);
         actTypeList.setSelectedIndex(0);
         centerPanel.add(actTypeList);
 
-        //create the "create user" button
+        //add the "create user" button
         buttonCreate = new JButton("Create User");
         buttonCreate.setPreferredSize(new Dimension(200, 25));
         buttonCreate.addActionListener(new onClickCreateUser());
         centerPanel.add(buttonCreate);
 
-        //create back to inventory view (main view) button
+        //add back to inventory view (main view) button
         buttonBackToSystemView = new JButton("Back To Inventory");
         buttonBackToSystemView.setPreferredSize(new Dimension(200, 25));
         buttonBackToSystemView.addActionListener(new onClickGoBackToSystemView());
@@ -159,6 +169,12 @@ public class createUserView extends JFrame {
 
                 if (createUserResult.contains("successfully")) {
 
+                    Serializer sz = new Serializer();
+                    try {
+                        sz.serializeAccounts(log.getAccounts(), log.getFileName());
+                    } catch (IOException ex) {
+                    }
+
                     JOptionPane.showMessageDialog(null, createUserResult);
                     SystemView systemView = new SystemView();
                     setVisible(false);
@@ -174,7 +190,7 @@ public class createUserView extends JFrame {
     /**
      * onClickGoBackToSystemView
      *
-     * @description this
+     * @description this method takes the user back to the System view
      */
     private class onClickGoBackToSystemView implements ActionListener {
 
@@ -186,5 +202,4 @@ public class createUserView extends JFrame {
             systemView.showSystemView(loggedIn);
         }
     }
-
 }

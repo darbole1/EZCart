@@ -3,7 +3,6 @@ package ui;
 import ez.Cart;
 import ez.Inventory;
 import ez.InventoryItem;
-import ez.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,7 +18,6 @@ public class SystemView extends JFrame {
 
     private JButton buttonLogin, buttonCreateUser, buttonAddToCart, buttonCartView, buttonLogOut;
     private JLabel productNameLabel, loggedUser, productDtlsLabel, productPriceLabel;
-    private JTextField productDtlsTextField;
     private boolean loggedInFlag;
     private String userLoggedIn;
     Inventory inventory = Inventory.getInstance();
@@ -29,7 +27,6 @@ public class SystemView extends JFrame {
 
         //createView has main page 'system' which is the inventory view
         createSystemView();
-
         setTitle("The EZ Shopping cart");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(900, 600);
@@ -38,7 +35,11 @@ public class SystemView extends JFrame {
     }
 
     /**
-     * The showSystemView method is used to set the LoginView JFrame visible
+     * showSystemView
+     *
+     * @description This method is used to set the LoginView JFrame visible
+     * @param loggedIn - used as a flag to verify if the user is logged in to
+     * show or hide certain buttons
      */
     public void showSystemView(boolean loggedIn) {
 
@@ -54,10 +55,17 @@ public class SystemView extends JFrame {
         }
     }
 
+    /**
+     * showSystemView
+     *
+     * @description This method is used to set the LoginView JFrame visible
+     * @param loggedIn - used as a flag to verify if the user is logged in to
+     * show or hide certain buttons
+     * @param uName - used to hold the user name, to show, "logged in as, user "
+     */
     public void showSystemViewAfterLogin(boolean loggedIn, String uName) {
 
         if (loggedIn) {
-
             userLoggedIn = uName;
             buttonLogin.setVisible(false);
             buttonCreateUser.setVisible(false);
@@ -67,7 +75,6 @@ public class SystemView extends JFrame {
             loggedInFlag = true;
             loggedUser.setVisible(true);
             setVisible(true);
-
         } else {
             setVisible(true);
             buttonCartView.setVisible(false);
@@ -75,7 +82,9 @@ public class SystemView extends JFrame {
     }
 
     /**
-     * The hideSystemView method is used to set the LoginView JFrame NOT visible
+     * hideSystemView
+     *
+     * @description The method is used to set the LoginView JFrame NOT visible
      */
     public void hideSystemView() {
         setVisible(false);
@@ -126,11 +135,13 @@ public class SystemView extends JFrame {
         Iterator<InventoryItem> itm = inventory.getInventoryItem();
         updateProductsView(itm, centerPanel);
 
+        //add the button to login
         buttonLogin = new JButton("Login");
         buttonLogin.setPreferredSize(new Dimension(200, 25));
         buttonLogin.addActionListener(new onClickNavigateToLoginPage());
         topRightPanel.add(buttonLogin);
 
+        //add the button to create a user
         buttonCreateUser = new JButton("Create new user");
         buttonCreateUser.setPreferredSize(new Dimension(200, 25));
         buttonCreateUser.addActionListener(new onClickNavigateToCreateUserPage());
@@ -149,6 +160,7 @@ public class SystemView extends JFrame {
         buttonCartView.addActionListener(new onClickNavigateToCartView());
         topRightPanel.add(buttonCartView);
 
+        //add the button to log out
         buttonLogOut = new JButton("Log Out");
         buttonLogOut.setPreferredSize(new Dimension(200, 25));
         buttonLogOut.setVisible(false);
@@ -197,27 +209,22 @@ public class SystemView extends JFrame {
      * shows a message to the user weather the addition was successful or not
      */
     private class onClickAddProductToCart implements ActionListener {
+
         Iterator<InventoryItem> cartItem = inventory.getInventoryItem();
-        
-        public onClickAddProductToCart(Iterator<InventoryItem> cartItem){
+
+        public onClickAddProductToCart(Iterator<InventoryItem> cartItem) {
             this.cartItem = cartItem;
         }
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
 
             if (loggedInFlag) {
-                
                 cart.addToCart(cartItem.next());
-                
-                //if addition to cart is successful or not, show message accordingly
                 JOptionPane.showMessageDialog(rootPane, "Addition to Cart Successful!");
             } else {
                 JOptionPane.showMessageDialog(null, "Please Login to continue with your purchase.", "Login Required", YES_NO_OPTION);
             }
-
-//            createUserView userView = new createUserView();
-//            userView.showNewUserView();
         }
     }
 
@@ -261,8 +268,8 @@ public class SystemView extends JFrame {
      *
      * @description changes the state between true and false of those labels or
      * info that a user should/should not see
-     * @params itm - the inventory item objects
-     * @params centerPanl - the panel where the elements will be placed
+     * @param itm - the inventory item objects
+     * @param centerPanel - the panel where the elements will be placed
      */
     public void updateProductsView(Iterator<InventoryItem> itm, JPanel centerPanel) {
         while (itm.hasNext()) {

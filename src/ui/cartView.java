@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import ez.Cart;
@@ -12,18 +7,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-
 /**
  *
  * @author DiegoArboleda
  */
 public class cartView extends JFrame {
 
-    private JButton buttonClearCart, buttonRemoveItem, buttonCheckout, buttonContShopping;
+    private JButton buttonClearCart, buttonCheckout, buttonContShopping;
     private JLabel productNameLabel, quantityLabel, pricePunitLabel, pricePitemLabel, totalLabel, taxLabel, shippingPriceLabel;
     private JComboBox quantityBox;
-    private double tax = 3.00, shippingPrice = 5.00;
-    private boolean loggedIn;    
+    final private double tax = 3.00, shippingPrice = 5.00;
+    private boolean loggedIn;
     private String userLoggedIn;
     Cart cart = Cart.getInstance();
 
@@ -39,7 +33,9 @@ public class cartView extends JFrame {
     }
 
     /**
-     * The showCartView method is used to set the Create new user View JFrame
+     * showCartView
+     *
+     * @description this method is used to set the Create new user View JFrame
      * visible
      */
     public void showCartView(String uname) {
@@ -48,13 +44,21 @@ public class cartView extends JFrame {
     }
 
     /**
-     * The hideCartView method is used to set the Create new user View JFrame
+     * hideCartView
+     *
+     * @description this method is used to set the Create new user View JFrame
      * NOT visible
      */
     public void hideCartView() {
         setVisible(false);
     }
 
+    /**
+     * createShoppingCartView
+     *
+     * @description this method create the shopping cart view and the button,
+     * labels, etc
+     */
     private void createShoppingCartView() {
 
         JPanel panel = new JPanel(new BorderLayout());
@@ -97,11 +101,10 @@ public class cartView extends JFrame {
         pricePitemLabel.setPreferredSize(new Dimension(200, 25));
         topPanel.add(pricePitemLabel);
 
-        //***************************
         //populate here the UI with the products
         addProductToCartView();
-        //***************************
-        //add tax  label 
+
+        //add tax label 
         taxLabel = new JLabel("Tax: $" + Double.toString(tax));
         taxLabel.setPreferredSize(new Dimension(200, 25));
         centerPanel.add(taxLabel);
@@ -112,7 +115,7 @@ public class cartView extends JFrame {
         centerPanel.add(shippingPriceLabel);
 
         //add total price  label
-        totalLabel = new JLabel("Total: $" + (Double.toString(tax + shippingPrice )) );
+        totalLabel = new JLabel("Total: $" + (Double.toString(tax + shippingPrice)));
         totalLabel.setPreferredSize(new Dimension(200, 25));
         centerPanel.add(totalLabel);
 
@@ -139,7 +142,7 @@ public class cartView extends JFrame {
     /**
      * onClickGoBackToSystemView
      *
-     * @description create
+     * @description takes the user back to the system view
      */
     private class onClickGoBackToSystemView implements ActionListener {
 
@@ -151,26 +154,27 @@ public class cartView extends JFrame {
             systemView.showSystemViewAfterLogin(loggedIn, userLoggedIn);
         }
     }
-    
-     /**
+
+    /**
      * onClickClearCart
      *
-     * @description create
+     * @description this method calls the function which clears the cart
      */
     private class onClickClearCart implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-           cart.clearShoppingCart();
+            cart.clearShoppingCart();
         }
     }
-    
-       /**
+
+    /**
      * addProductToCartView
      *
-     * @description This function will create the labels, buttons required for the cart view
+     * @description This function will create the labels, buttons required for
+     * the cart view with the products as added by the customer
      */
-    public void addProductToCartView(){
-        
+    public void addProductToCartView() {
+
     }
 }
